@@ -26,10 +26,14 @@
     <script src="js/utils.js"></script>
     <script src="js/session.js"></script>
     <script src="js/seed.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/pages/home.js"></script>
 
     <script>
       seedIfEmpty();
+
+      // Ask for notification permission after the customer opens Home.
+      requestMpesaNotificationPermission();
     </script>
   </body>
 </html>

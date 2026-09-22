@@ -185,12 +185,17 @@ function processPayment(senderCustomerId, amount, buildFields) {
     `${recipientPart} on ` +
     `${formatDateTime(transaction.createdAt)}. New M-PESA balance is ${formatCurrency(newSenderBalance)}.`;
 
-  DB.insertMessage({
+  const message = DB.insertMessage({
     transactionId: transaction.id,
     threadName: "M-PESA",
     body,
     createdAt: transaction.createdAt,
   });
+
+  // Show a system notification when the transaction succeeds.
+  if (typeof showMpesaNotification === "function") {
+    showMpesaNotification(transaction, message);
+  }
 
   return transaction;
 }

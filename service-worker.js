@@ -4,7 +4,7 @@
 // Bump CACHE_VERSION to force a cache refresh after edits.
 // ============================================================
 
-const CACHE_VERSION = "mpesa-v1";
+const CACHE_VERSION = "mpesa-v2";
 
 // Everything we want available offline
 const APP_SHELL = [
@@ -44,6 +44,7 @@ const APP_SHELL = [
   "./js/utils.js",
   "./js/session.js",
   "./js/seed.js",
+  "./js/notifications.js",
   "./js/webauthn.js",
   "./js/pages/login.js",
   "./js/pages/register.js",
@@ -135,4 +136,43 @@ self.addEventListener("message", (event) => {
   if (event.data === "SKIP_WAITING") {
     self.skipWaiting();
   }
+});
+
+// ---------- NOTIFICATION CLICK: open the related transaction ----------
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  const referenceId = event.notification.data?.referenceId;
+
+  if (!referenceId) return;
+
+  const transactionUrl = new URL(
+    `transaction.html?ref=${encodeURIComponent(referenceId)}`,
+    self.registration.scope,
+  ).href;
+
+  event.waitUntil(
+    self.clients
+      .matchAll({
+        type: "window",
+        includeUncontrolled: true,
+      })
+      .then((clientList) => {
+        // If the app is already open, reuse it.
+        for (const client of clientList) {
+          if ("focus" in client) {
+            return client.focus().then(() => {
+              if ("navigate" in client) {
+                return client.navigate(transactionUrl);
+              }
+            });
+          }
+        }
+
+        // Otherwise open the transaction page.
+        if (self.clients.openWindow) {
+          return self.clients.openWindow(transactionUrl);
+        }
+      }),
+  );
 });
