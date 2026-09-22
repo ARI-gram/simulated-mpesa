@@ -14,13 +14,16 @@
     />
     <meta name="apple-mobile-web-app-title" content="M-PESA" />
     <link rel="manifest" href="manifest.json" />
-    <link rel="apple-touch-icon" href="icons/icon.svg" />
-    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="icon" type="image/png" href="icons/icon-192.png" />
 
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
+    <div id="app-splash">
+      <img src="icons/splash.png" alt="M-PESA" />
+    </div>
     <div class="screen splash-screen">
       <!-- Logo -->
       <div class="splash-content">
@@ -94,6 +97,17 @@
       window.addEventListener("appinstalled", () => {
         installBtn.classList.remove("visible");
         console.log("[PWA] Installed");
+      });
+    </script>
+    <script>
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const splash = document.getElementById("app-splash");
+
+          if (splash) {
+            splash.remove();
+          }
+        }, 1500);
       });
     </script>
   </body>

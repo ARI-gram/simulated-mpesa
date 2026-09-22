@@ -4,7 +4,7 @@
 // Bump CACHE_VERSION to force a cache refresh after edits.
 // ============================================================
 
-const CACHE_VERSION = "mpesa-v2";
+const CACHE_VERSION = "mpesa-v3";
 
 // Everything we want available offline
 const APP_SHELL = [
@@ -64,6 +64,7 @@ const APP_SHELL = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-1024.png",
+  "./icons/splash.png",
 ];
 
 // ---------- INSTALL: pre-cache the app shell ----------

@@ -342,3 +342,26 @@ body {
 #installBtn:active {
   transform: translateX(-50%) scale(0.97);
 }
+
+/* ============================================================
+   APP LAUNCH SPLASH SCREEN
+   ============================================================ */
+
+#app-splash {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+#app-splash img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

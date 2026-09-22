@@ -100,8 +100,9 @@ function renderSuccess() {
   const isPochi = tx.type === "pochi";
 
   document.getElementById("stName").textContent = name.toUpperCase();
-  document.getElementById("stPhone").textContent =
-    phone && !isPochi ? `Phone number:${phone}` : "";
+  document.getElementById("stPhone").textContent = phone
+    ? `Phone number:${phone}`
+    : "";
 
   // Look up the original recipient to inherit their avatar
   const recipient = DB.getRecipientByPhone(tx.recipientIdentifier);
