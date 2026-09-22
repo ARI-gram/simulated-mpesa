@@ -61,7 +61,9 @@ const APP_SHELL = [
   "./js/pages/admin.js",
 
   "./manifest.json",
-  "./icons/icon.svg",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  "./icons/icon-1024.png",
 ];
 
 // ---------- INSTALL: pre-cache the app shell ----------
