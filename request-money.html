@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request Money — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/request-money.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="req-page">
+      <!-- HEADER -->
+      <header class="page-header">
+        <button
+          type="button"
+          class="back-btn"
+          onclick="goBack()"
+          aria-label="Go back"
+        >
+          ‹
+        </button>
+        <h1>Request Money</h1>
+        <span class="header-spacer"></span>
+      </header>
+
+      <!-- TABS -->
+      <div class="req-tabs" id="reqTabs">
+        <button type="button" class="req-tab active" data-tab="new">
+          New Request
+        </button>
+        <button type="button" class="req-tab" data-tab="mine">
+          My Requests
+          <span class="tab-badge hidden" id="reqCount">0</span>
+        </button>
+      </div>
+
+      <!-- =========================================
+           TAB 1: NEW REQUEST FORM
+      ========================================== -->
+      <main class="req-main" id="newPanel">
+        <section class="block">
+          <label class="field-label" for="reqPhone">Phone Number</label>
+          <div class="input-wrapper">
+            <input
+              type="tel"
+              id="reqPhone"
+              placeholder="Enter Phone Number"
+              maxlength="10"
+              inputmode="numeric"
+              autocomplete="tel"
+              oninput="onReqPhoneInput()"
+            />
+            <div class="input-actions">
+              <button
+                type="button"
+                class="icon-action"
+                onclick="pickRequesterFromFav()"
+                aria-label="Pick from favourites"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#22c55e"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 8v4l3 2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="block">
+          <label class="field-label" for="reqAmount">Amount</label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="reqAmount"
+              placeholder="0"
+              inputmode="numeric"
+              min="1"
+              oninput="onReqAmountInput()"
+            />
+            <span class="input-suffix">Ksh</span>
+          </div>
+        </section>
+
+        <section class="block">
+          <label class="field-label" for="reqReason">
+            Reason <span class="optional">(optional)</span>
+          </label>
+          <div class="input-wrapper textarea-wrapper">
+            <input
+              type="text"
+              id="reqReason"
+              placeholder="What's this for?"
+              maxlength="60"
+              oninput="onReqReasonInput()"
+            />
+          </div>
+        </section>
+
+        <button
+          type="button"
+          class="btn-primary"
+          id="createReqBtn"
+          onclick="createRequest()"
+        >
+          Create Request
+        </button>
+      </main>
+
+      <!-- =========================================
+           TAB 2: MY REQUESTS LIST
+      ========================================== -->
+      <main class="req-main hidden" id="minePanel">
+        <div class="data-list" id="reqList">
+          <!-- populated by JS -->
+        </div>
+        <div class="req-empty hidden" id="reqEmpty">
+          You haven't created any requests yet.
+        </div>
+      </main>
+
+      <!-- =========================================
+           SHARE SHEET (modal shown after creating)
+      ========================================== -->
+      <div class="share-sheet hidden" id="shareSheet">
+        <div class="sheet-backdrop" onclick="closeShareSheet()"></div>
+        <div class="sheet-body">
+          <div class="sheet-hero">
+            <div class="sheet-icon">✓</div>
+          </div>
+
+          <h2 class="sheet-title">Request created</h2>
+          <p class="sheet-subtitle">
+            Share this reference with the person you're requesting from.
+          </p>
+
+          <div class="share-card">
+            <div class="share-row">
+              <span>Reference</span>
+              <strong id="shareRef">—</strong>
+            </div>
+            <div class="share-row">
+              <span>Amount</span>
+              <strong id="shareAmount">—</strong>
+            </div>
+            <div class="share-row">
+              <span>From</span>
+              <strong id="shareTo">—</strong>
+            </div>
+            <div class="share-row hidden" id="shareReasonRow">
+              <span>Reason</span>
+              <strong id="shareReason">—</strong>
+            </div>
+          </div>
+
+          <div class="sheet-actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="copyRequestText()"
+            >
+              Copy text
+            </button>
+            <button
+              type="button"
+              class="btn-primary"
+              onclick="shareRequestText()"
+            >
+              Share
+            </button>
+          </div>
+
+          <button type="button" class="btn-link" onclick="closeShareSheet()">
+            Close
+          </button>
+        </div>
+      </div>
+
+      <!-- NAV BAR (mock) -->
+      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/pages/request-money.js"></script>
+
+    <script>
+      seedIfEmpty();
+    </script>
+  </body>
+</html>

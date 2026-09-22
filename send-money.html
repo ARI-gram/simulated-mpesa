@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Send Money — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/send-money.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="send-page" id="sendPage">
+      <!-- HEADER -->
+      <header class="page-header">
+        <button
+          type="button"
+          class="back-btn"
+          onclick="goBack()"
+          aria-label="Go back"
+        >
+          ‹
+        </button>
+        <h1>Send Money</h1>
+        <span class="header-spacer"></span>
+      </header>
+
+      <!-- SEGMENTED TOGGLE -->
+      <div class="segmented" role="tablist">
+        <button
+          type="button"
+          class="segment active"
+          data-tab="mobile"
+          onclick="switchSendTab('mobile')"
+        >
+          Mobile number
+        </button>
+        <button
+          type="button"
+          class="segment"
+          data-tab="pochi"
+          onclick="switchSendTab('pochi')"
+        >
+          Pochi la Biashara
+        </button>
+      </div>
+
+      <!-- FAVOURITES -->
+      <section class="block">
+        <div class="block-header">
+          <h2>Favourites</h2>
+          <button type="button" class="link" onclick="viewAllFavourites()">
+            View All
+          </button>
+        </div>
+
+        <div class="favourites-row" id="favouritesRow">
+          <!-- populated dynamically based on active tab -->
+        </div>
+      </section>
+
+      <!-- PHONE NUMBER -->
+      <section class="block">
+        <label class="field-label" for="phoneInput">Enter Phone Number</label>
+
+        <div class="input-wrapper">
+          <input
+            type="tel"
+            id="phoneInput"
+            placeholder="Enter Phone Number"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            oninput="onPhoneInput()"
+          />
+
+          <div class="input-actions">
+            <button
+              type="button"
+              class="icon-action"
+              onclick="pickFromContacts()"
+              aria-label="Pick from contacts"
+            >
+              <!-- Contact icon: rounded green square with a person -->
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="4" />
+                <circle cx="12" cy="10" r="2.6" />
+                <path d="M8 17c0.6-1.8 2.2-2.8 4-2.8s3.4 1 4 2.8" />
+              </svg>
+            </button>
+
+            <span class="input-divider"></span>
+
+            <button
+              type="button"
+              class="icon-action danger"
+              onclick="scanQrCode()"
+              aria-label="Scan QR"
+            >
+              <!-- QR icon: rounded red square with QR pattern -->
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#ef4444"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="4" />
+                <rect x="7" y="7" width="3.5" height="3.5" />
+                <rect x="13.5" y="7" width="3.5" height="3.5" />
+                <rect x="7" y="13.5" width="3.5" height="3.5" />
+                <path d="M13.5 13.5h1.5v1.5M17 13.5v3M13.5 17h3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Recipient preview (shown when a phone matches a saved recipient) -->
+      <div class="recipient-preview hidden" id="recipientPreview">
+        <span class="preview-text" id="recipientPreviewText"></span>
+      </div>
+      <!-- AMOUNT -->
+      <section class="block">
+        <label class="field-label" for="amountInput">Enter Amount</label>
+
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="amountInput"
+            placeholder="0"
+            inputmode="numeric"
+            min="1"
+            oninput="onAmountInput()"
+          />
+          <span class="input-suffix">Ksh</span>
+        </div>
+      </section>
+
+      <!-- PAYMENT METHOD -->
+      <section class="block">
+        <h2 class="field-label strong">Select Payment Method</h2>
+
+        <div class="payment-methods">
+          <button
+            type="button"
+            class="payment-method selected"
+            data-method="mpesa"
+            onclick="selectPaymentMethod('mpesa')"
+          >
+            <div class="pm-logo safaricom-logo">◆</div>
+            <div class="pm-info">
+              <span class="pm-title">M-PESA</span>
+              <span class="pm-sub" id="mpesaBalance"> Bal. Ksh. 0.0 </span>
+            </div>
+            <span class="pm-check">✓</span>
+          </button>
+
+          <button
+            type="button"
+            class="payment-method"
+            data-method="shiriki"
+            onclick="selectPaymentMethod('shiriki')"
+          >
+            <div class="pm-logo shiriki-logo">S</div>
+            <div class="pm-info">
+              <span class="pm-title">Shiriki Pay</span>
+              <span class="pm-sub">Select</span>
+            </div>
+            <span class="pm-check">✓</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- CONTINUE -->
+      <button
+        type="button"
+        class="btn-continue"
+        id="continueBtn"
+        onclick="handleContinue()"
+      >
+        Continue
+      </button>
+
+      <!-- DO MORE -->
+      <section class="block do-more">
+        <h2 class="block-title">Do More</h2>
+
+        <div class="do-more-grid">
+          <button type="button" class="do-more-item" onclick="sendToMany()">
+            <span class="dm-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="26"
+                height="26"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="2"
+              >
+                <circle cx="9" cy="8" r="3" />
+                <circle cx="17" cy="9" r="2.5" />
+                <path d="M3 20c0-3 3-5 6-5s6 2 6 5" />
+                <path d="M15 20c0-2 2-3.5 4-3.5" />
+              </svg>
+            </span>
+            <span class="dm-label">Send to<br />Many</span>
+          </button>
+
+          <button type="button" class="do-more-item" onclick="requestMoney()">
+            <span class="dm-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="26"
+                height="26"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="2"
+              >
+                <rect x="3" y="6" width="18" height="12" rx="2" />
+                <path d="M12 10v4M10 12h4" />
+              </svg>
+            </span>
+            <span class="dm-label">Request<br />Money</span>
+          </button>
+
+          <button
+            type="button"
+            class="do-more-item"
+            onclick="internationalTransfers()"
+          >
+            <span class="dm-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="26"
+                height="26"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" />
+              </svg>
+            </span>
+            <span class="dm-label">International<br />Transfers</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- BOTTOM NAV (mock) -->
+      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/pages/send-money.js"></script>
+  </body>
+</html>

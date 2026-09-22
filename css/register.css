@@ -1,0 +1,356 @@
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: #000;
+
+  color: #fff;
+
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+/* =========================================
+   SCREEN
+========================================= */
+
+.screen {
+  width: 100%;
+  max-width: 430px;
+
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  background: #111111;
+
+  padding: 0 28px 30px;
+
+  position: relative;
+}
+
+/* =========================================
+   REGISTER HEADER
+========================================= */
+
+.register-header {
+  text-align: center;
+
+  padding-top: 70px;
+
+  margin-bottom: 42px;
+}
+
+.mpesa-icon {
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 24px;
+
+  border-radius: 50%;
+
+  background: #0b2a13;
+
+  color: #20c55a;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 30px;
+
+  font-weight: 700;
+}
+
+.register-header h1 {
+  font-size: 27px;
+
+  font-weight: 500;
+
+  letter-spacing: -0.4px;
+}
+
+.register-header p {
+  margin-top: 10px;
+
+  color: #999;
+
+  font-size: 15px;
+
+  line-height: 1.5;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.form-error {
+  width: 100%;
+
+  margin-bottom: 20px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  background: rgba(212, 20, 90, 0.1);
+
+  border: 1px solid #d4145a;
+
+  color: #e33170;
+
+  font-size: 14px;
+
+  line-height: 1.4;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+#registerForm {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #e5e5e5;
+
+  font-size: 15px;
+
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+
+  height: 54px;
+
+  padding: 0 16px;
+
+  border-radius: 11px;
+
+  border: 1px solid #333333;
+
+  outline: none;
+
+  background: #181818;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #666;
+}
+
+.form-group input:focus {
+  border-color: #20c55a;
+
+  box-shadow: 0 0 0 2px rgba(32, 197, 90, 0.08);
+}
+
+.form-group small {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #777;
+
+  font-size: 12px;
+}
+
+/* =========================================
+   PRIMARY BUTTON
+========================================= */
+
+.btn-primary {
+  width: 100%;
+
+  height: 54px;
+
+  margin-top: 8px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #20c55a;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.1s ease,
+    opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* =========================================
+   LOGIN LINK
+========================================= */
+
+.link-text {
+  margin-top: 28px;
+
+  text-align: center;
+
+  color: #888;
+
+  font-size: 14px;
+}
+
+.link-text a {
+  color: #20c55a;
+
+  text-decoration: none;
+
+  font-weight: 600;
+}
+
+.link-text a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   BACK LINK
+========================================= */
+
+.back-link {
+  display: block;
+
+  margin-top: 30px;
+
+  text-align: center;
+
+  color: #777;
+
+  text-decoration: none;
+
+  font-size: 14px;
+}
+
+.back-link:hover {
+  color: #20c55a;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 430px) {
+  .screen {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .register-header {
+    padding-top: 55px;
+
+    margin-bottom: 35px;
+  }
+
+  .register-header h1 {
+    font-size: 25px;
+  }
+
+  .mpesa-icon {
+    width: 64px;
+    height: 64px;
+
+    font-size: 26px;
+
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 19px;
+  }
+
+  .form-group input {
+    height: 52px;
+  }
+
+  .btn-primary {
+    height: 52px;
+  }
+}
+
+/* =========================================
+   SMALL HEIGHT DEVICES
+========================================= */
+
+@media (max-height: 700px) {
+  .register-header {
+    padding-top: 30px;
+
+    margin-bottom: 25px;
+  }
+
+  .mpesa-icon {
+    width: 55px;
+    height: 55px;
+
+    margin-bottom: 15px;
+  }
+
+  .register-header h1 {
+    font-size: 23px;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  .form-group input {
+    height: 48px;
+  }
+
+  .btn-primary {
+    height: 48px;
+  }
+}

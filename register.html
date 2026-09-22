@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Register - Simulated M-PESA</title>
+
+    <link rel="stylesheet" href="css/register.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="screen form-screen">
+      <!-- Header -->
+
+      <div class="register-header">
+        <div class="mpesa-icon">M</div>
+
+        <h1>Create Account</h1>
+
+        <p>Register to start using M-PESA</p>
+      </div>
+
+      <!-- Error -->
+
+      <p id="errorMsg" class="form-error" style="display: none"></p>
+
+      <!-- Registration Form -->
+
+      <form id="registerForm">
+        <!-- Full Name -->
+
+        <div class="form-group">
+          <label for="regName"> Full Name </label>
+
+          <input
+            type="text"
+            id="regName"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <!-- Phone -->
+
+        <div class="form-group">
+          <label for="regPhone"> Phone Number </label>
+
+          <input
+            type="tel"
+            id="regPhone"
+            placeholder="07XXXXXXXX"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+          />
+        </div>
+
+        <!-- PIN -->
+
+        <div class="form-group">
+          <label for="regPin"> Set PIN </label>
+
+          <input
+            type="password"
+            id="regPin"
+            placeholder="Enter 4-digit PIN"
+            maxlength="4"
+            inputmode="numeric"
+            autocomplete="new-password"
+            required
+          />
+
+          <small> Your PIN must contain exactly 4 digits. </small>
+        </div>
+
+        <!-- Confirm PIN -->
+
+        <div class="form-group">
+          <label for="regPinConfirm"> Confirm PIN </label>
+
+          <input
+            type="password"
+            id="regPinConfirm"
+            placeholder="Re-enter your PIN"
+            maxlength="4"
+            inputmode="numeric"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+
+        <!-- Submit -->
+
+        <button type="submit" class="btn-primary">Create Account</button>
+      </form>
+
+      <!-- Login -->
+
+      <p class="link-text">
+        Already have an account?
+
+        <a href="login.html"> Log In </a>
+      </p>
+
+      <!-- Back -->
+
+      <a href="index.html" class="back-link"> &larr; Back </a>
+    </div>
+
+    <!-- Existing JavaScript -->
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/pages/register.js"></script>
+  </body>
+</html>

@@ -1,0 +1,566 @@
+html,
+body {
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: #000;
+
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  display: flex;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+/* =========================================
+   PHONE SCREEN
+========================================= */
+
+.phone-screen {
+  width: 100%;
+  max-width: 430px;
+
+  height: 100vh;
+
+  background: #111111;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   STATUS BAR
+========================================= */
+
+.status-bar {
+  height: 55px;
+
+  padding: 0 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  flex-shrink: 0;
+}
+
+.time {
+  font-size: 15px;
+
+  font-weight: 500;
+}
+
+.status-right {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  font-size: 14px;
+}
+
+.battery {
+  width: 27px;
+
+  height: 13px;
+
+  border: 1px solid white;
+
+  border-radius: 4px;
+
+  padding: 2px;
+}
+
+.battery-level {
+  width: 80%;
+
+  height: 100%;
+
+  background: white;
+
+  border-radius: 2px;
+}
+
+/* =========================================
+   LOGIN CONTAINER
+========================================= */
+
+.login-container {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 0 24px;
+}
+
+.login-container h1 {
+  margin-top: 55px;
+
+  font-size: 22px;
+
+  font-weight: 500;
+
+  text-align: center;
+}
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.profile {
+  margin-top: 70px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.avatar {
+  width: 96px;
+
+  height: 96px;
+
+  border-radius: 50%;
+
+  background: #0b2a13;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.avatar span {
+  font-size: 28px;
+
+  font-weight: 600;
+
+  color: #20c55a;
+}
+
+.profile h2 {
+  margin-top: 25px;
+
+  font-size: 24px;
+
+  font-weight: 500;
+}
+
+.phone-display {
+  margin-top: 9px;
+
+  font-size: 19px;
+
+  font-weight: 500;
+
+  color: #ffffff;
+}
+
+/* =========================================
+   PHONE INPUT
+========================================= */
+
+.phone-input-wrapper {
+  width: 100%;
+
+  max-width: 340px;
+
+  margin-top: 30px;
+}
+
+.phone-input-wrapper label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+
+  color: #999;
+}
+
+.phone-input-wrapper input {
+  width: 100%;
+
+  height: 48px;
+
+  border: 1px solid #333;
+
+  border-radius: 10px;
+
+  background: #181818;
+
+  color: white;
+
+  outline: none;
+
+  padding: 0 15px;
+
+  font-size: 17px;
+}
+
+.phone-input-wrapper input:focus {
+  border-color: #20c55a;
+}
+
+/* =========================================
+   PIN
+========================================= */
+
+.pin-container {
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 30px;
+}
+
+.pin-box {
+  width: 70px;
+
+  height: 70px;
+
+  border-radius: 15px;
+
+  border: 1px solid #d4145a;
+
+  background: transparent;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 36px;
+
+  color: white;
+}
+
+.pin-box.filled {
+  border-color: #d4145a;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-message {
+  margin-top: 18px;
+
+  color: #d4145a;
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  text-align: center;
+
+  max-width: 350px;
+}
+
+/* =========================================
+   KEYPAD
+========================================= */
+
+.keypad {
+  width: 100%;
+
+  max-width: 380px;
+
+  margin-top: 25px;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.keypad button {
+  height: 80px;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #eeeeee;
+
+  font-family: inherit;
+
+  font-size: 42px;
+
+  font-weight: 300;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: transform 0.08s ease;
+}
+
+.keypad button:active {
+  transform: scale(0.9);
+
+  opacity: 0.5;
+}
+
+/* =========================================
+   SPECIAL BUTTONS
+========================================= */
+
+.special-button {
+  color: #00b94f !important;
+}
+
+.fingerprint {
+  font-size: 42px !important;
+}
+
+.delete {
+  font-size: 38px !important;
+}
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-button {
+  width: 100%;
+
+  max-width: 340px;
+
+  height: 50px;
+
+  margin-top: 10px;
+
+  margin-bottom: 20px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #20c55a;
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.login-button:active {
+  transform: scale(0.98);
+}
+
+/* =========================================
+   HOME INDICATOR
+========================================= */
+
+.home-indicator {
+  width: 135px;
+
+  height: 5px;
+
+  background: white;
+
+  border-radius: 10px;
+
+  margin: 5px auto 10px;
+
+  flex-shrink: 0;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 430px) {
+  .profile {
+    margin-top: 55px;
+  }
+
+  .avatar {
+    width: 82px;
+    height: 82px;
+  }
+
+  .profile h2 {
+    font-size: 22px;
+  }
+
+  .phone-display {
+    font-size: 17px;
+  }
+
+  .phone-input-wrapper {
+    margin-top: 22px;
+  }
+
+  .pin-container {
+    gap: 10px;
+
+    margin-top: 25px;
+  }
+
+  .pin-box {
+    width: 64px;
+
+    height: 64px;
+  }
+
+  .keypad {
+    margin-top: 20px;
+  }
+
+  .keypad button {
+    height: 70px;
+
+    font-size: 38px;
+  }
+}
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-height: 700px) {
+  .login-container h1 {
+    margin-top: 25px;
+  }
+
+  .profile {
+    margin-top: 30px;
+  }
+
+  .phone-input-wrapper {
+    margin-top: 15px;
+  }
+
+  .pin-container {
+    margin-top: 15px;
+  }
+
+  .keypad {
+    margin-top: 10px;
+  }
+
+  .keypad button {
+    height: 55px;
+  }
+
+  .login-button {
+    margin-top: 5px;
+
+    height: 44px;
+  }
+}
+
+/* =========================================
+   BIOMETRIC BUTTON STATES
+========================================= */
+.special-button.fingerprint {
+  position: relative;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
+}
+
+.special-button.fingerprint:disabled,
+.special-button.fingerprint[data-state="disabled"] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.special-button.fingerprint[data-state="active"] {
+  color: #22c55e;
+  text-shadow: 0 0 12px rgba(34, 197, 94, 0.35);
+}
+
+.special-button.fingerprint[data-state="active"]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  animation: bioPulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bioPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.15;
+  }
+}
+
+/* Disabled hint under the keypad */
+.biometric-hint {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #6a6a6a;
+  min-height: 16px;
+  padding: 0 24px;
+}

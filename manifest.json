@@ -1,0 +1,19 @@
+{
+  "name": "M-PESA",
+  "short_name": "M-PESA",
+  "description": "M-PESA mobile money app.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#0d0d0d",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

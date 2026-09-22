@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Simulated M-PESA</title>
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+
+  <body>
+    <!-- =========================================
+         LOGIN GATE (shown first)
+    ========================================== -->
+    <div class="admin-gate" id="adminGate">
+      <div class="gate-card">
+        <div class="gate-icon">🔒</div>
+        <h1>Admin Access</h1>
+        <p>Enter the admin passcode to continue.</p>
+
+        <input
+          type="password"
+          id="adminPass"
+          placeholder="Admin passcode"
+          autocomplete="off"
+          onkeydown="if (event.key === 'Enter') tryAdminLogin();"
+        />
+
+        <p class="gate-error" id="gateError" style="display: none"></p>
+
+        <button type="button" class="btn-primary" onclick="tryAdminLogin()">
+          Unlock
+        </button>
+
+        <a href="index.html" class="gate-back">← Back to app</a>
+      </div>
+    </div>
+
+    <!-- =========================================
+         DASHBOARD (shown after unlock)
+    ========================================== -->
+    <div class="admin-page hidden" id="adminPage">
+      <!-- HEADER -->
+      <header class="admin-header">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p class="sub">Simulated M-PESA control panel</p>
+        </div>
+        <button
+          type="button"
+          class="btn-logout"
+          onclick="lockAdmin()"
+          aria-label="Lock"
+        >
+          🔒
+        </button>
+      </header>
+
+      <!-- OVERVIEW STATS -->
+      <section class="stats-grid" id="statsGrid">
+        <!-- populated by JS -->
+      </section>
+
+      <!-- TABS -->
+      <div class="admin-tabs" id="adminTabs">
+        <button type="button" class="admin-tab active" data-tab="customers">
+          Customers
+        </button>
+        <button type="button" class="admin-tab" data-tab="transactions">
+          Transactions
+        </button>
+        <button type="button" class="admin-tab" data-tab="recipients">
+          Recipients
+        </button>
+        <button type="button" class="admin-tab" data-tab="merchants">
+          Merchants
+        </button>
+      </div>
+
+      <!-- PANEL (swaps content) -->
+      <main class="admin-main" id="adminMain">
+        <!-- populated by JS -->
+      </main>
+
+      <!-- DANGER ZONE -->
+      <section class="danger-zone">
+        <h3>Danger Zone</h3>
+        <div class="danger-actions">
+          <button type="button" class="btn-danger" onclick="clearAllData()">
+            Clear all data
+          </button>
+          <button type="button" class="btn-warn" onclick="reseedData()">
+            Re-seed demo data
+          </button>
+        </div>
+      </section>
+      <!-- ADD / EDIT MODAL -->
+      <div class="admin-modal hidden" id="adminModal">
+        <div class="modal-backdrop" onclick="closeAdminModal()"></div>
+
+        <div class="modal-body">
+          <div class="modal-header">
+            <h2 id="modalTitle">Add recipient</h2>
+            <button
+              type="button"
+              class="modal-close"
+              onclick="closeAdminModal()"
+            >
+              ×
+            </button>
+          </div>
+
+          <form id="modalForm" onsubmit="saveAdminModal(event)">
+            <div id="modalFields"><!-- populated by JS --></div>
+
+            <p class="modal-error" id="modalError" style="display: none"></p>
+
+            <div class="modal-actions">
+              <button
+                type="button"
+                class="btn-secondary"
+                onclick="closeAdminModal()"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary" id="modalSubmit">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/pages/admin.js"></script>
+  </body>
+</html>

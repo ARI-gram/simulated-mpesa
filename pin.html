@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enter M-PESA PIN — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/pin.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="pin-page">
+      <!-- HEADER -->
+      <header class="page-header">
+        <button
+          type="button"
+          class="back-btn"
+          onclick="goBack()"
+          aria-label="Go back"
+        >
+          ‹
+        </button>
+        <h1>Enter M-PESA PIN</h1>
+        <span class="header-spacer"></span>
+      </header>
+
+      <!-- RECIPIENT INFO -->
+      <section class="recipient">
+        <div class="recipient-avatar" id="recipientAvatar">??</div>
+        <div class="recipient-name" id="recipientName">RECIPIENT NAME</div>
+        <div class="recipient-sub" id="recipientSub">
+          Ksh. 0.00 &nbsp; Fee: Ksh. 0.00
+        </div>
+      </section>
+
+      <!-- PIN BOXES -->
+      <div class="pin-boxes" id="pinBoxes">
+        <div class="pin-box" data-index="0"></div>
+        <div class="pin-box" data-index="1"></div>
+        <div class="pin-box" data-index="2"></div>
+        <div class="pin-box" data-index="3"></div>
+      </div>
+
+      <!-- ERROR MESSAGE -->
+      <div class="pin-error" id="pinError" style="display: none"></div>
+
+      <!-- KEYPAD -->
+      <div class="keypad" id="keypad">
+        <button type="button" class="key" data-key="1">1</button>
+        <button type="button" class="key" data-key="2">2</button>
+        <button type="button" class="key" data-key="3">3</button>
+        <button type="button" class="key" data-key="4">4</button>
+        <button type="button" class="key" data-key="5">5</button>
+        <button type="button" class="key" data-key="6">6</button>
+        <button type="button" class="key" data-key="7">7</button>
+        <button type="button" class="key" data-key="8">8</button>
+        <button type="button" class="key" data-key="9">9</button>
+
+        <button
+          type="button"
+          class="key special fingerprint"
+          data-key="fingerprint"
+          aria-label="Use biometric"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="url(#fpGrad)"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          >
+            <defs>
+              <linearGradient id="fpGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#22c55e" />
+                <stop offset="50%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#ef4444" />
+              </linearGradient>
+            </defs>
+            <path d="M12 4c-3 0-5 2-5 5v3" />
+            <path d="M12 7c-1.5 0-2.5 1-2.5 2.5V13" />
+            <path d="M14.5 9.5C14.5 8 13.5 7 12 7" />
+            <path d="M12 11v2" />
+            <path d="M9.5 13v1.5M12 15v1M14.5 13v1.5" />
+            <path d="M7 12v2M17 9.5V13M17 15v1" />
+            <path d="M8.5 16c.6.8 1.5 1.5 3.5 1.5s2.9-.7 3.5-1.5" />
+          </svg>
+        </button>
+
+        <button type="button" class="key" data-key="0">0</button>
+
+        <button
+          type="button"
+          class="key special delete"
+          data-key="delete"
+          aria-label="Delete"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          >
+            <path d="M20 5H9L3 12l6 7h11a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z" />
+            <path d="M11 9l6 6M17 9l-6 6" stroke="#ef4444" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- BOTTOM NAV (mock) -->
+      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/webauthn.js"></script>
+    <script src="js/pages/pin.js"></script>
+  </body>
+</html>

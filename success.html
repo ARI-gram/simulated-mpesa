@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Successful — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/success.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="success-page">
+      <!-- TOP ACTIONS -->
+      <div class="top-actions">
+        <button
+          type="button"
+          class="circle-btn close"
+          onclick="handleClose()"
+          aria-label="Close"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="#ef4444"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          >
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="circle-btn share"
+          onclick="handleShare()"
+          aria-label="Share receipt"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="#22c55e"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 3v12" />
+            <path d="M8 7l4-4 4 4" />
+            <path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- SUCCESS HERO + CARD -->
+      <main class="success-main">
+        <div class="success-wrap">
+          <div class="success-hero">
+            <div class="success-icon">🎉</div>
+          </div>
+
+          <div class="success-card">
+            <h1 class="success-title">Your transaction was successful</h1>
+
+            <p class="success-date" id="successDate">—</p>
+
+            <div class="success-amount" id="successAmount">Ksh 0.00</div>
+
+            <p class="success-cost" id="successCost">
+              Transaction cost: Ksh 0.00
+            </p>
+
+            <div class="success-id">
+              <span>ID: <span id="successRef">—</span></span>
+              <button
+                type="button"
+                class="copy-btn"
+                onclick="handleCopyId()"
+                aria-label="Copy reference ID"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="#22c55e"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                >
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+
+            <!-- Send-to box -->
+            <div class="send-to-box">
+              <div class="lbl">Send to:</div>
+              <div class="send-to-row">
+                <div class="st-avatar" id="stAvatar">??</div>
+                <div class="st-details">
+                  <div class="st-name" id="stName">—</div>
+                  <div class="st-phone" id="stPhone">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="success-actions">
+          <button
+            type="button"
+            class="action-tile"
+            onclick="handleAddFavourite()"
+          >
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8z"
+                />
+              </svg>
+            </span>
+            <span class="tile-label">Add to<br />favourites</span>
+          </button>
+
+          <button type="button" class="action-tile" onclick="handleReverse()">
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <path d="M4 12a8 8 0 1 0 8-8" />
+                <path d="M4 4v4h4" />
+              </svg>
+            </span>
+            <span class="tile-label">Reverse<br />transaction</span>
+          </button>
+
+          <button type="button" class="action-tile" onclick="handleSchedule()">
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M3 10h18M8 3v4M16 3v4" />
+                <path d="M12 14v3l2 1.5" />
+              </svg>
+            </span>
+            <span class="tile-label">Schedule<br />payment</span>
+          </button>
+
+          <button type="button" class="action-tile" onclick="handleDownload()">
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"
+                />
+                <path d="M14 3v5h5" />
+                <path d="M9 14h6M9 17h3" />
+              </svg>
+            </span>
+            <span class="tile-label">Download<br />receipt</span>
+          </button>
+        </div>
+      </main>
+
+      <!-- DONE BUTTON -->
+      <div class="success-bottom">
+        <button type="button" class="btn-done" onclick="handleDone()">
+          Done
+        </button>
+      </div>
+
+      <!-- NAV BAR (mock) -->
+      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/pages/success.js"></script>
+  </body>
+</html>

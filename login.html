@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M-PESA Login</title>
+    <link rel="stylesheet" href="css/login.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="phone-screen">
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="login-container">
+        <h1>Enter your M-PESA PIN</h1>
+
+        <!-- CUSTOMER INFORMATION -->
+        <div class="profile">
+          <div class="avatar">
+            <span id="customerInitials">?</span>
+          </div>
+
+          <h2 id="customerName">Enter phone number</h2>
+
+          <p class="phone-display">
+            Phone Number
+            <span id="displayPhone">----------</span>
+          </p>
+        </div>
+
+        <!-- PHONE INPUT -->
+        <div class="phone-input-wrapper">
+          <label for="loginPhone"> Phone Number </label>
+
+          <input
+            type="tel"
+            id="loginPhone"
+            name="phone"
+            placeholder="07XXXXXXXX"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+          />
+        </div>
+
+        <!-- PIN VALUE -->
+        <input type="hidden" id="loginPin" name="pin" />
+
+        <!-- PIN BOXES -->
+        <div class="pin-container">
+          <div class="pin-box" id="pinBox1"></div>
+          <div class="pin-box" id="pinBox2"></div>
+          <div class="pin-box" id="pinBox3"></div>
+          <div class="pin-box" id="pinBox4"></div>
+        </div>
+
+        <!-- ERROR -->
+        <div id="errorMsg" class="error-message" style="display: none"></div>
+
+        <!-- KEYPAD -->
+        <div class="keypad">
+          <button type="button" onclick="enterNumber('1')">1</button>
+          <button type="button" onclick="enterNumber('2')">2</button>
+          <button type="button" onclick="enterNumber('3')">3</button>
+          <button type="button" onclick="enterNumber('4')">4</button>
+          <button type="button" onclick="enterNumber('5')">5</button>
+          <button type="button" onclick="enterNumber('6')">6</button>
+          <button type="button" onclick="enterNumber('7')">7</button>
+          <button type="button" onclick="enterNumber('8')">8</button>
+          <button type="button" onclick="enterNumber('9')">9</button>
+
+          <!-- FINGERPRINT -->
+          <button
+            type="button"
+            class="special-button fingerprint"
+            onclick="biometricLogin()"
+            aria-label="Use biometric"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="30"
+              height="30"
+              fill="none"
+              stroke="#22c55e"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            >
+              <path d="M12 4c-3 0-5 2-5 5v3" />
+              <path d="M12 7c-1.5 0-2.5 1-2.5 2.5V13" />
+              <path d="M14.5 9.5C14.5 8 13.5 7 12 7" />
+              <path d="M12 11v2" />
+              <path d="M9.5 13v1.5M12 15v1M14.5 13v1.5" />
+              <path d="M7 12v2M17 9.5V13M17 15v1" />
+              <path d="M8.5 16c.6.8 1.5 1.5 3.5 1.5s2.9-.7 3.5-1.5" />
+            </svg>
+          </button>
+
+          <button type="button" onclick="enterNumber('0')">0</button>
+
+          <!-- DELETE -->
+          <button
+            type="button"
+            class="special-button delete"
+            onclick="deleteNumber()"
+            aria-label="Delete"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="28"
+              height="28"
+              fill="none"
+              stroke="#ef4444"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            >
+              <path d="M20 5H9L3 12l6 7h11a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z" />
+              <path d="M11 9l6 6M17 9l-6 6" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- BIOMETRIC HINT (shown if available) — OUTSIDE the keypad grid -->
+        <p class="biometric-hint" id="bioHint"></p>
+
+        <!-- LOGIN -->
+        <button type="submit" class="login-button">Login</button>
+      </form>
+
+      <!-- HOME INDICATOR -->
+      <div class="home-indicator"></div>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/webauthn.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/pages/login.js"></script>
+  </body>
+</html>

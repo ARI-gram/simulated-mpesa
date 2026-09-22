@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M-PESA Messages — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/messages.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="msg-page">
+      <!-- HEADER -->
+      <header class="page-header">
+        <button
+          type="button"
+          class="back-btn"
+          onclick="goBack()"
+          aria-label="Go back"
+        >
+          ‹
+        </button>
+
+        <div class="header-profile">
+          <div class="hp-avatar">
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="#fff"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            >
+              <circle cx="12" cy="9" r="3.2" />
+              <path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5" />
+            </svg>
+          </div>
+          <div class="hp-text">
+            <div class="hp-name" id="threadName">MPESA</div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button
+            type="button"
+            class="header-icon"
+            onclick="callThread()"
+            aria-label="Call"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="#ddd"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 5c0 8 7 15 15 15l2-3-4-2-2 2c-3-1-6-4-7-7l2-2-2-4z" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="header-icon"
+            onclick="infoThread()"
+            aria-label="Info"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="#ddd"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 8.5v.01M11 12h1v4h1" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- MESSAGES LIST -->
+      <main class="msg-main" id="msgList"></main>
+
+      <!-- ONE-WAY NOTICE (M-PESA sender, no reply composer) -->
+      <div class="no-reply-notice">
+        Sender can't accept replies. Contact them directly.
+        <a
+          href="#"
+          onclick="
+            infoThread();
+            return false;
+          "
+          >Learn more</a
+        >
+      </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/pages/messages.js"></script>
+
+    <script>
+      seedIfEmpty();
+    </script>
+  </body>
+</html>

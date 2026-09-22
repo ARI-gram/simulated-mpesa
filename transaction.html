@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Details — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/transaction.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="tx-page">
+      <!-- HEADER -->
+      <header class="page-header">
+        <button
+          type="button"
+          class="back-btn"
+          onclick="goBack()"
+          aria-label="Go back"
+        >
+          ‹
+        </button>
+        <h1>Transaction Details</h1>
+        <span class="header-spacer"></span>
+      </header>
+
+      <!-- MAIN -->
+      <main class="tx-main">
+        <!-- HERO + CARD -->
+        <div class="tx-wrap">
+          <div class="tx-hero">
+            <div class="tx-icon" id="txIcon">✓</div>
+          </div>
+
+          <div class="tx-card">
+            <!-- Status banner -->
+            <div class="tx-status" id="txStatus">Transaction Successful</div>
+
+            <!-- Amount -->
+            <div class="tx-amount" id="txAmount">Ksh 0.00</div>
+
+            <!-- Type subtitle -->
+            <div class="tx-type" id="txType">Sent to mobile number</div>
+
+            <!-- Divider -->
+            <div class="tx-divider"></div>
+
+            <!-- Details list -->
+            <dl class="tx-details">
+              <div class="tx-row">
+                <dt>Recipient</dt>
+                <dd id="txRecipient">—</dd>
+              </div>
+              <div class="tx-row">
+                <dt>Phone / Identifier</dt>
+                <dd id="txIdentifier">—</dd>
+              </div>
+              <div class="tx-row">
+                <dt>Date &amp; time</dt>
+                <dd id="txDateTime">—</dd>
+              </div>
+              <div class="tx-row">
+                <dt>Transaction cost</dt>
+                <dd id="txCost">Ksh 0.00</dd>
+              </div>
+              <div class="tx-row">
+                <dt>Balance after</dt>
+                <dd id="txBalance">—</dd>
+              </div>
+              <div class="tx-row">
+                <dt>Reference ID</dt>
+                <dd class="tx-ref">
+                  <span id="txRef">—</span>
+                  <button
+                    type="button"
+                    class="copy-mini"
+                    onclick="copyRef()"
+                    aria-label="Copy reference"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                      fill="none"
+                      stroke="#22c55e"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    >
+                      <rect x="9" y="9" width="11" height="11" rx="2" />
+                      <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                    </svg>
+                  </button>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="tx-actions">
+          <button type="button" class="action-tile" onclick="handleShare()">
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3v12" />
+                <path d="M8 7l4-4 4 4" />
+                <path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" />
+              </svg>
+            </span>
+            <span class="tile-label">Share<br />receipt</span>
+          </button>
+
+          <button type="button" class="action-tile" onclick="handleDownload()">
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"
+                />
+                <path d="M14 3v5h5" />
+                <path d="M9 14h6M9 17h3" />
+              </svg>
+            </span>
+            <span class="tile-label">Download<br />receipt</span>
+          </button>
+
+          <button
+            type="button"
+            class="action-tile"
+            id="reverseTile"
+            onclick="handleReverse()"
+          >
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <path d="M4 12a8 8 0 1 0 8-8" />
+                <path d="M4 4v4h4" />
+              </svg>
+            </span>
+            <span class="tile-label">Reverse<br />transaction</span>
+          </button>
+
+          <button type="button" class="action-tile" onclick="handleReport()">
+            <span class="tile-icon">
+              <svg
+                viewBox="0 0 24 24"
+                width="22"
+                height="22"
+                fill="none"
+                stroke="#22c55e"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <path d="M12 4l8 15H4z" />
+                <path d="M12 10v4M12 17v.01" />
+              </svg>
+            </span>
+            <span class="tile-label">Report<br />issue</span>
+          </button>
+        </div>
+      </main>
+
+      <!-- BOTTOM -->
+      <div class="tx-bottom">
+        <button type="button" class="btn-secondary" onclick="handleHome()">
+          Back to Home
+        </button>
+      </div>
+
+      <!-- NAV BAR (mock) -->
+      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/pages/transaction.js"></script>
+  </body>
+</html>

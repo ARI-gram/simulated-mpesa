@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulated M-PESA</title>
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="screen splash-screen">
+      <!-- Logo -->
+      <div class="splash-content">
+        <div class="splash-logo">M-PESA</div>
+        <p class="splash-subtitle">Simulated M-PESA App</p>
+      </div>
+
+      <!-- Actions -->
+      <div class="splash-actions">
+        <a href="login.html" class="btn-primary splash-button">
+          Continue as Customer
+        </a>
+        <a href="admin-dashboard.html" class="btn-secondary splash-button">
+          Admin Access
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <p class="splash-footer">Secure mobile money simulation</p>
+    </div>
+
+    <!-- Install button (hidden until browser fires beforeinstallprompt) -->
+    <button id="installBtn">Install M-PESA</button>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/seed.js"></script>
+
+    <script>
+      // Seed demo data on first load
+      seedIfEmpty();
+    </script>
+
+    <script>
+      // Register the service worker (PWA)
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("service-worker.js")
+            .then((reg) => {
+              console.log("[PWA] Service worker registered:", reg.scope);
+            })
+            .catch((err) => {
+              console.warn("[PWA] Service worker registration failed:", err);
+            });
+        });
+      }
+    </script>
+
+    <script>
+      // Optional "Install app" button
+      let deferredPrompt = null;
+      const installBtn = document.getElementById("installBtn");
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.classList.add("visible");
+      });
+
+      installBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        installBtn.classList.remove("visible");
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log("[PWA] User choice:", outcome);
+        deferredPrompt = null;
+      });
+
+      window.addEventListener("appinstalled", () => {
+        installBtn.classList.remove("visible");
+        console.log("[PWA] Installed");
+      });
+    </script>
+  </body>
+</html>

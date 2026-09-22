@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statements — Simulated M-PESA</title>
+    <link rel="stylesheet" href="css/statements.css" />
+    <!-- PWA -->
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="M-PESA" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  </head>
+
+  <body>
+    <div class="stmt-page">
+      <!-- HEADER -->
+      <header class="page-header">
+        <button
+          type="button"
+          class="back-btn"
+          onclick="goBack()"
+          aria-label="Go back"
+        >
+          ‹
+        </button>
+        <h1>Statements</h1>
+        <span class="header-spacer"></span>
+      </header>
+
+      <!-- SUMMARY CARD -->
+      <section class="summary-card">
+        <div class="summary-item">
+          <span class="summary-label">Money in</span>
+          <span class="summary-value in" id="sumIn">Ksh 0.00</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">Money out</span>
+          <span class="summary-value out" id="sumOut">Ksh 0.00</span>
+        </div>
+      </section>
+
+      <!-- FILTER TABS -->
+      <div class="filter-tabs" id="filterTabs">
+        <button type="button" class="filter-tab active" data-filter="all">
+          All
+        </button>
+        <button type="button" class="filter-tab" data-filter="out">Sent</button>
+        <button type="button" class="filter-tab" data-filter="in">
+          Received
+        </button>
+        <button type="button" class="filter-tab" data-filter="reversal">
+          Reversals
+        </button>
+      </div>
+
+      <!-- TRANSACTIONS LIST -->
+      <main class="stmt-main" id="stmtList">
+        <!-- populated by JS -->
+      </main>
+
+      <!-- EMPTY STATE -->
+      <div class="stmt-empty hidden" id="stmtEmpty">
+        No transactions match this filter.
+      </div>
+
+      <!-- NAV BAR (mock) -->
+      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/pages/statements.js"></script>
+
+    <script>
+      seedIfEmpty();
+    </script>
+  </body>
+</html>
