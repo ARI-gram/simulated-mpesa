@@ -180,10 +180,22 @@ function processPayment(senderCustomerId, amount, buildFields) {
     ? transaction.recipientName.toUpperCase()
     : `${transaction.recipientName.toUpperCase()} ${transaction.recipientIdentifier}`;
 
+  const dailyTransactionLimitRemaining = 499890;
+
   const body =
     `${transaction.referenceId} Confirmed. ${formatCurrency(transaction.amount)} ${verb} ` +
     `${recipientPart} on ` +
-    `${formatDateTime(transaction.createdAt)}. New M-PESA balance is ${formatCurrency(newSenderBalance)}.`;
+    `${formatDateTime(transaction.createdAt)}. ` +
+    `New M-PESA balance is ${formatCurrency(newSenderBalance)}. ` +
+    `Transaction cost, Ksh0.00. ` +
+    `Amount you can transact within the day is ${dailyTransactionLimitRemaining.toLocaleString(
+      "en-KE",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      },
+    )}. ` +
+    `See all your balances now https://saf.cx/iqIzU`;
 
   const message = DB.insertMessage({
     transactionId: transaction.id,
