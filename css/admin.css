@@ -395,6 +395,27 @@ body {
   color: #ef4444;
 }
 
+.row-topup {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #14291c;
+  color: #22c55e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.row-topup:active {
+  background: #1c3a28;
+  transform: scale(0.92);
+}
+
 .row-delete {
   width: 32px;
   height: 32px;

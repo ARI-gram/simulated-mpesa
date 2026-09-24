@@ -20,6 +20,7 @@ const THREAD_NAME = "M-PESA";
 document.addEventListener("DOMContentLoaded", () => {
   renderThreadHeader();
   renderMessages();
+  initMessageDelete();
 });
 
 function renderThreadHeader() {
@@ -78,7 +79,7 @@ function renderBubble(msg) {
   const safeBody = linkify(escapeHtml(msg.body));
 
   return `
-    <div class="msg-row">
+    <div class="msg-row" data-id="${msg.id}">
       <div class="msg-avatar">
         <svg
           viewBox="0 0 24 24"
@@ -136,6 +137,55 @@ function formatDayLabel(ts) {
   const month = d.toLocaleString("en-GB", { month: "short" });
   const year = d.getFullYear();
   return `${day} ${month} ${year}`;
+}
+
+// ============================================================
+// DELETE MESSAGE (long-press on touch, right-click on desktop)
+// ============================================================
+
+function initMessageDelete() {
+  const list = document.getElementById("msgList");
+  let timer = null;
+  let lastAsk = 0;
+
+  function askDelete(row) {
+    // Avoid a double prompt when touch and contextmenu both fire
+    if (Date.now() - lastAsk < 800) return;
+    lastAsk = Date.now();
+
+    const id = Number(row.dataset.id);
+    if (!id) return;
+
+    if (confirm("Delete this message?")) {
+      DB.deleteMessage(id);
+      renderMessages();
+    }
+  }
+
+  function cancel() {
+    clearTimeout(timer);
+  }
+
+  list.addEventListener(
+    "touchstart",
+    (e) => {
+      const row = e.target.closest(".msg-row");
+      if (!row) return;
+      timer = setTimeout(() => askDelete(row), 550);
+    },
+    { passive: true },
+  );
+
+  list.addEventListener("touchend", cancel);
+  list.addEventListener("touchmove", cancel, { passive: true });
+  list.addEventListener("touchcancel", cancel);
+
+  list.addEventListener("contextmenu", (e) => {
+    const row = e.target.closest(".msg-row");
+    if (!row) return;
+    e.preventDefault();
+    askDelete(row);
+  });
 }
 
 function goBack() {

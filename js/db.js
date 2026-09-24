@@ -276,6 +276,13 @@ const DB = {
     return row;
   },
 
+  deleteMessage(id) {
+    saveTable(
+      KEYS.messages,
+      getTable(KEYS.messages).filter((m) => m.id !== id),
+    );
+  },
+
   /* =========================================================
      DANGER ZONE
   ========================================================= */

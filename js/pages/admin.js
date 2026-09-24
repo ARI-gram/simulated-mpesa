@@ -173,6 +173,14 @@ function renderCustomersPanel() {
             </div>
             <button
               type="button"
+              class="row-topup"
+              data-action="topup-customer"
+              data-id="${c.id}"
+              aria-label="Top up wallet"
+              title="Top up"
+            >+</button>
+            <button
+              type="button"
               class="row-delete"
               data-action="delete-customer"
               data-id="${c.id}"
@@ -337,6 +345,11 @@ function attachRowActions() {
       const action = el.dataset.action;
       const id = Number(el.dataset.id);
 
+      if (action === "topup-customer") {
+        openTopUp(id);
+        return;
+      }
+
       if (action === "delete-customer") {
         if (!confirm(`Delete customer #${id} and all their data?`)) return;
         DB.deleteCustomer(id);
@@ -471,6 +484,10 @@ function saveAdminModal(event) {
   if (modalType === "merchant") {
     return saveMerchant();
   }
+
+  if (modalType === "topup") {
+    return saveTopUp();
+  }
 }
 
 function saveRecipient() {
@@ -543,6 +560,67 @@ function saveMerchant() {
     totalReceived: 0,
     createdAt: Date.now(),
   });
+
+  closeAdminModal();
+  refresh();
+}
+
+// ---------- Top up wallet ----------
+
+function openTopUp(id) {
+  const c = DB.getCustomerById(id);
+  if (!c) return;
+
+  modalType = "topup";
+  modalEditingId = id;
+
+  modalTitleEl().textContent = "Top up wallet";
+  modalErrorEl().style.display = "none";
+
+  modalFieldsEl().innerHTML = `
+    <p style="font-size:13px;color:#b0b0b0;margin-bottom:16px;line-height:1.5">
+      ${escapeHtml(c.name)} · ${escapeHtml(c.phone)}<br />
+      Current balance: <strong style="color:#22c55e">${formatCurrency(c.balance)}</strong>
+    </p>
+
+    <label for="topupAmount">Amount (Ksh)</label>
+    <input
+      type="text"
+      id="topupAmount"
+      inputmode="numeric"
+      placeholder="e.g. 5000"
+      maxlength="7"
+      oninput="this.value = this.value.replace(/\\D/g, '')"
+      required
+    />
+
+    <label for="topupSource">Received from</label>
+    <input
+      type="text"
+      id="topupSource"
+      value="M-PESA DEPOSIT"
+      maxlength="30"
+    />
+  `;
+
+  modalEl().classList.remove("hidden");
+  setTimeout(() => document.getElementById("topupAmount").focus(), 100);
+}
+
+function saveTopUp() {
+  const amount = Number(document.getElementById("topupAmount").value);
+  const source =
+    document.getElementById("topupSource").value.trim() || "M-PESA DEPOSIT";
+
+  if (!(amount > 0)) {
+    return showModalError("Enter an amount greater than 0.");
+  }
+
+  try {
+    topUpWallet(modalEditingId, amount, source.toUpperCase());
+  } catch (err) {
+    return showModalError(err.message || "Top up failed.");
+  }
 
   closeAdminModal();
   refresh();

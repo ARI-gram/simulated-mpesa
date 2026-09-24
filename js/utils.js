@@ -118,6 +118,48 @@ function smsDateTime(ts) {
   return `${datePart} at ${timePart}`;
 }
 
+// Add money to a wallet, with a transaction record and an SMS.
+function topUpWallet(customerId, amount, source = "M-PESA DEPOSIT") {
+  const cust = DB.getCustomerById(customerId);
+  if (!cust) throw new Error("Customer not found");
+
+  amount = Number(amount);
+  if (!(amount > 0)) throw new Error("Invalid amount");
+
+  const newBalance = DB.creditCustomer(customerId, amount);
+
+  let referenceId;
+  do {
+    referenceId = generateReferenceId();
+  } while (DB.referenceIdExists(referenceId));
+
+  const tx = DB.insertTransaction({
+    senderCustomerId: customerId,
+    type: "DEPOSIT",
+    direction: "IN",
+    amount,
+    recipientName: source,
+    recipientIdentifier: source,
+    referenceId,
+    balanceAfter: newBalance,
+    status: "SUCCESS",
+    createdAt: Date.now(),
+  });
+
+  DB.insertMessage({
+    transactionId: tx.id,
+    customerId,
+    threadName: "M-PESA",
+    body:
+      `${referenceId} Confirmed. You have received ${smsMoney(amount)} from ` +
+      `${source} on ${smsDateTime(tx.createdAt)}. ` +
+      `New M-PESA balance is ${smsMoney(newBalance)}.`,
+    createdAt: tx.createdAt,
+  });
+
+  return tx;
+}
+
 function isValidPhone(phone) {
   return /^0\d{9}$/.test(phone);
 }
