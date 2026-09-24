@@ -84,9 +84,7 @@ body {
 
 .success-main {
   width: 100%;
-  flex: 1;
-
-  min-height: 0;
+  flex: 0 1 auto;
 
   padding: 0;
 }
