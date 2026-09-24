@@ -56,10 +56,26 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function applyPrefill() {
-  const phone = sessionStorage.getItem("mpesa_prefill_phone");
+  let phone = sessionStorage.getItem("mpesa_prefill_phone");
+  let tab = null;
+
+  // A person tapped from the Frequents list on Home
+  const rawPick = sessionStorage.getItem("mpesa_frequent_pick");
+  if (rawPick) {
+    sessionStorage.removeItem("mpesa_frequent_pick");
+    try {
+      const pick = JSON.parse(rawPick);
+      phone = pick.phone;
+      tab = pick.type; // "mobile" | "pochi"
+    } catch (_) {}
+  }
+
   if (!phone) return;
 
   sessionStorage.removeItem("mpesa_prefill_phone");
+
+  // Pay tab picks open the Pochi tab
+  if (tab === "pochi") switchSendTab("pochi");
 
   const input = document.getElementById("phoneInput");
   if (input) {
