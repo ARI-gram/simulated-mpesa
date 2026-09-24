@@ -91,6 +91,33 @@ function formatDateTime(timestampMs) {
   return `${datePart} at ${timePart}`;
 }
 
+// "Ksh100.00" (no space, like real M-PESA SMS)
+function smsMoney(amount) {
+  return (
+    "Ksh" +
+    Number(amount).toLocaleString("en-KE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
+}
+
+// "24/9/26 at 7:50 AM" (no leading zeros, uppercase AM/PM)
+function smsDateTime(ts) {
+  const d = new Date(ts);
+  const datePart = `${d.getDate()}/${d.getMonth() + 1}/${String(
+    d.getFullYear(),
+  ).slice(-2)}`;
+  const timePart = d
+    .toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .toUpperCase();
+  return `${datePart} at ${timePart}`;
+}
+
 function isValidPhone(phone) {
   return /^0\d{9}$/.test(phone);
 }
@@ -183,10 +210,10 @@ function processPayment(senderCustomerId, amount, buildFields) {
   const dailyTransactionLimitRemaining = 499890;
 
   const body =
-    `${transaction.referenceId} Confirmed. ${formatCurrency(transaction.amount)} ${verb} ` +
+    `${transaction.referenceId} Confirmed. ${smsMoney(transaction.amount)} ${verb} ` +
     `${recipientPart} on ` +
-    `${formatDateTime(transaction.createdAt)}. ` +
-    `New M-PESA balance is ${formatCurrency(newSenderBalance)}. ` +
+    `${smsDateTime(transaction.createdAt)}. ` +
+    `New M-PESA balance is ${smsMoney(newSenderBalance)}. ` +
     `Transaction cost, Ksh0.00. ` +
     `Amount you can transact within the day is ${dailyTransactionLimitRemaining.toLocaleString(
       "en-KE",
