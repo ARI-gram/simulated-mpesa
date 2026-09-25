@@ -87,8 +87,8 @@ function renderBubble(msg) {
 
       <div class="msg-line">
         <div class="msg-bubble">
-          ${linkPreview}
           <div class="msg-text">${safeBody}</div>
+          ${linkPreview}
         </div>
 
         <button
