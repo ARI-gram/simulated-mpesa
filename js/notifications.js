@@ -40,7 +40,6 @@ function showMpesaNotification(transaction, message) {
   const amount = formatCurrency(transaction.amount);
 
   const title = "MPESA";
-
   const body = message?.body || "Transaction successful.";
 
   const options = {
