@@ -1,6 +1,6 @@
 {
-  "name": "M-PESA",
-  "short_name": "M-PESA",
+  "name": "MPESA",
+  "short_name": "MPESA",
   "description": "M-PESA mobile money app.",
   "start_url": "index.html",
   "scope": "./",

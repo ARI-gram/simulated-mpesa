@@ -146,11 +146,21 @@ function renderPanel() {
 function renderCustomersPanel() {
   const customers = DB.getAllCustomers();
 
+  const addButton = `
+    <div class="panel-add-row">
+      <button type="button" class="panel-add-btn" onclick="openAddCustomer()">
+        <span class="plus">+</span> Add customer
+      </button>
+    </div>
+  `;
+
   if (!customers.length) {
-    return `<div class="admin-empty">No customers yet.</div>`;
+    return addButton + `<div class="admin-empty">No customers yet.</div>`;
   }
 
-  return `
+  return (
+    addButton +
+    `
     <div class="data-list">
       ${customers
         .map((c) => {
@@ -192,7 +202,8 @@ function renderCustomersPanel() {
         })
         .join("")}
     </div>
-  `;
+    `
+  );
 }
 
 function renderTransactionsPanel() {
@@ -433,6 +444,76 @@ function openAddRecipient() {
   document.getElementById("adminModal").classList.remove("hidden");
   setTimeout(() => document.getElementById("recName").focus(), 100);
 }
+// ---------- Customer ----------
+
+function openAddCustomer() {
+  modalType = "customer";
+  modalEditingId = null;
+
+  modalTitleEl().textContent = "Add customer";
+  modalErrorEl().style.display = "none";
+
+  modalFieldsEl().innerHTML = `
+    <label for="custName">Full name</label>
+    <input type="text" id="custName" maxlength="40" required />
+
+    <label for="custPhone">Phone number</label>
+    <input type="tel" id="custPhone" maxlength="10" inputmode="numeric" required />
+
+    <label for="custBalance">Starting balance (Ksh)</label>
+    <input
+      type="text"
+      id="custBalance"
+      inputmode="numeric"
+      value="0"
+      oninput="this.value = this.value.replace(/\\D/g, '')"
+    />
+
+    <label for="custPin">PIN (optional, 4 digits — can be set later)</label>
+    <input
+      type="password"
+      id="custPin"
+      maxlength="4"
+      inputmode="numeric"
+      oninput="this.value = this.value.replace(/\\D/g, '')"
+    />
+  `;
+
+  modalEl().classList.remove("hidden");
+  setTimeout(() => document.getElementById("custName").focus(), 100);
+}
+
+async function saveCustomer() {
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const pin = document.getElementById("custPin").value.trim();
+  const balance = Number(document.getElementById("custBalance").value) || 0;
+
+  if (!name) return showModalError("Please enter a name.");
+  if (!isValidPhone(phone)) {
+    return showModalError("Enter a valid phone number (e.g. 07XXXXXXXX).");
+  }
+  if (DB.getCustomerByPhone(phone)) {
+    return showModalError("A customer with this phone already exists.");
+  }
+  if (pin && !/^\d{4}$/.test(pin)) {
+    return showModalError("PIN must be exactly 4 digits, or left blank.");
+  }
+
+  const pinHash = pin ? await hashPin(pin) : "";
+
+  DB.insertCustomer({
+    name,
+    phone,
+    pinHash,
+    balance,
+    status: "ACTIVE",
+    createdAt: Date.now(),
+  });
+
+  closeAdminModal();
+  refresh();
+}
 
 // ---------- Merchant ----------
 
@@ -474,7 +555,7 @@ function openAddMerchant() {
 
 // ---------- Save ----------
 
-function saveAdminModal(event) {
+async function saveAdminModal(event) {
   event.preventDefault();
   modalErrorEl().style.display = "none";
 
@@ -483,6 +564,9 @@ function saveAdminModal(event) {
   }
   if (modalType === "merchant") {
     return saveMerchant();
+  }
+  if (modalType === "customer") {
+    return saveCustomer();
   }
 
   if (modalType === "topup") {
@@ -509,6 +593,7 @@ function saveRecipient() {
     phone,
     avatarUrl: modalAvatarUrl || "",
     avatarColor: modalAvatarColor,
+    isFavourite: document.getElementById("recFavourite").checked,
   };
 
   if (modalEditingId) {
@@ -726,6 +811,7 @@ function openEditRecipient(id) {
   // Pre-fill
   document.getElementById("recName").value = rec.name;
   document.getElementById("recPhone").value = rec.phone;
+  document.getElementById("recFavourite").checked = rec.isFavourite !== false;
   document.getElementById("avatarUrl").value = rec.avatarUrl || "";
 
   updateAvatarPreview();
@@ -767,5 +853,10 @@ function buildRecipientFieldsHtml() {
     <label for="recPhone">Phone number</label>
     <input type="tel" id="recPhone" maxlength="10" inputmode="numeric"
            autocomplete="tel" oninput="onRecipientFieldChanged()" required />
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="recFavourite" checked />
+      Mark as favourite
+    </label>
   `;
 }

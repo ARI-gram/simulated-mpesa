@@ -4,7 +4,7 @@
 // Bump CACHE_VERSION to force a cache refresh after edits.
 // ============================================================
 
-const CACHE_VERSION = "mpesa-v3";
+const CACHE_VERSION = "mpesa-v5";
 
 // Everything we want available offline
 const APP_SHELL = [

@@ -78,29 +78,79 @@ function renderMessages() {
 
 function renderBubble(msg) {
   const safeBody = linkify(escapeHtml(msg.body));
+  const timeLabel = formatMsgTime(msg.createdAt);
+  const linkPreview = buildLinkPreview(msg.body);
 
   return `
     <div class="msg-row" data-id="${msg.id}">
-      <div class="msg-avatar">
-        <svg
-          viewBox="0 0 24 24"
-          width="18"
-          height="18"
-          fill="none"
-          stroke="#fff"
-          stroke-width="1.8"
-          stroke-linecap="round"
-        >
-          <circle cx="12" cy="9" r="3" />
-          <path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5" />
-        </svg>
-      </div>
+      <div class="msg-meta">${timeLabel} · <span class="msg-carrier">1: Safaricom</span></div>
 
       <div class="msg-bubble">
-        ${safeBody}
+        ${linkPreview}
+        <div class="msg-text">${safeBody}</div>
+
+        <button
+          type="button"
+          class="msg-forward"
+          onclick="forwardMessage(event, ${msg.id})"
+          aria-label="Forward message"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#cfcfcf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 5l7 7-7 7" />
+            <path d="M4 12h17" />
+          </svg>
+        </button>
       </div>
     </div>
   `;
+}
+
+// "10:59" / "14:49" style time, 24-hour like your reference
+function formatMsgTime(ts) {
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
+
+// Rich-link style preview card for the M-PESA balances URL
+function buildLinkPreview(body) {
+  const match = String(body).match(/https?:\/\/[^\s<]+/);
+  if (!match) return "";
+
+  let domain = match[0];
+  try {
+    domain = new URL(match[0]).hostname;
+  } catch (_) {}
+
+  return `
+    <div class="link-preview">
+      <div class="link-preview-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
+      </div>
+      <div class="link-preview-text">
+        <span class="link-preview-title">Fintech App</span>
+        <span class="link-preview-domain">${escapeHtml(domain)}</span>
+      </div>
+    </div>
+  `;
+}
+
+// Stub — wire up the Web Share API or your own share sheet later
+function forwardMessage(event, id) {
+  event.stopPropagation();
+  const msg = DB.getMessagesByThread(THREAD_NAME).find((m) => m.id === id);
+  if (!msg) return;
+
+  if (navigator.share) {
+    navigator.share({ text: msg.body }).catch(() => {});
+  } else {
+    alert("Forward — coming next.");
+  }
 }
 
 function escapeHtml(str) {

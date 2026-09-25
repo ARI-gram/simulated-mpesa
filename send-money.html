@@ -266,8 +266,82 @@
         </div>
       </section>
 
-      <!-- BOTTOM NAV (mock) -->
-      <div class="nav-bar"><span>◀</span><span>⬤</span><span>■</span></div>
+      <!-- ALL RECIPIENTS MODAL -->
+      <div class="all-recipients-modal hidden" id="allRecipientsModal">
+        <div class="arm-backdrop" onclick="closeAllRecipients()"></div>
+        <div class="arm-body">
+          <div class="arm-header">
+            <h2>All Recipients</h2>
+            <button
+              type="button"
+              class="arm-close"
+              onclick="closeAllRecipients()"
+            >
+              ×
+            </button>
+          </div>
+          <div id="allRecipientsList"></div>
+        </div>
+      </div>
+      <!-- CONTACTS MODAL -->
+      <div class="all-recipients-modal hidden" id="contactsModal">
+        <div class="arm-backdrop" onclick="closeContactsModal()"></div>
+        <div class="arm-body">
+          <div class="arm-header">
+            <h2>Contacts</h2>
+            <button
+              type="button"
+              class="arm-close"
+              onclick="closeContactsModal()"
+            >
+              ×
+            </button>
+          </div>
+
+          <button
+            type="button"
+            class="cm-add-btn"
+            onclick="showAddContactForm()"
+          >
+            <span class="plus">+</span> Add new contact
+          </button>
+
+          <div id="addContactForm" class="add-contact-form hidden">
+            <input
+              type="text"
+              id="newContactName"
+              placeholder="Full name"
+              maxlength="40"
+            />
+            <input
+              type="tel"
+              id="newContactPhone"
+              placeholder="Phone number"
+              maxlength="10"
+              inputmode="numeric"
+            />
+            <p class="add-contact-error hidden" id="addContactError"></p>
+            <div class="add-contact-actions">
+              <button
+                type="button"
+                class="btn-secondary-sm"
+                onclick="hideAddContactForm()"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn-primary-sm"
+                onclick="saveNewContact()"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+
+          <div id="contactsList"></div>
+        </div>
+      </div>
     </div>
 
     <script src="js/db.js"></script>

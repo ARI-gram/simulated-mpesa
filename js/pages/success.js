@@ -211,6 +211,7 @@ function handleAddFavourite() {
   DB.insertRecipient({
     name,
     phone,
+    isFavourite: true,
     createdAt: Date.now(),
   });
 

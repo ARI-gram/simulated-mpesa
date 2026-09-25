@@ -35,7 +35,7 @@ function colorForId(id) {
  * filter by a "type" field if you add one.
  */
 function getFavourites(tab) {
-  const all = DB.getAllRecipients();
+  const all = DB.getAllRecipients().filter((r) => r.isFavourite !== false);
   // For pochi tab, only show recipients with a Pochi-ish phone
   // (dummy filter — replace with a real `type` field later)
   const filtered =
@@ -43,6 +43,12 @@ function getFavourites(tab) {
       ? all.filter((r) => /^0[57]/.test(r.phone)) // 07xxx or 05xxx = mobile/pochi-ish
       : all;
   return filtered.slice(0, 8); // cap at 8
+}
+
+// Everyone saved for this tab, favourite or not — used by "View All"
+function getAllRecipientsForTab(tab) {
+  const all = DB.getAllRecipients();
+  return tab === "pochi" ? all.filter((r) => /^0[57]/.test(r.phone)) : all;
 }
 // ============================================================
 // INIT
@@ -265,8 +271,37 @@ function selectFavourite(id) {
 }
 
 function viewAllFavourites() {
-  // TODO: navigate to favourites page / open modal
-  alert("All favourites — coming next.");
+  const list = getAllRecipientsForTab(sendState.activeTab);
+  const box = document.getElementById("allRecipientsList");
+
+  if (!list.length) {
+    box.innerHTML = `<div class="all-recipients-empty">No saved recipients yet.</div>`;
+  } else {
+    box.innerHTML = list
+      .map((f) => {
+        const color = f.avatarColor || colorForId(f.id);
+        const avatarHtml = f.avatarUrl
+          ? `<div class="fav-avatar avatar-img"><img src="${escapeHtml(f.avatarUrl)}" alt="" /></div>`
+          : `<div class="fav-avatar ${color}">${getInitials(f.name)}</div>`;
+
+        return `
+          <button type="button" class="all-recipients-row" onclick="selectFavourite(${f.id}); closeAllRecipients();">
+            ${avatarHtml}
+            <div class="arr-text">
+              <span class="arr-name">${escapeHtml(f.name)}</span>
+              <span class="arr-phone">${escapeHtml(f.phone)}</span>
+            </div>
+          </button>
+        `;
+      })
+      .join("");
+  }
+
+  document.getElementById("allRecipientsModal").classList.remove("hidden");
+}
+
+function closeAllRecipients() {
+  document.getElementById("allRecipientsModal").classList.add("hidden");
 }
 
 // ============================================================
@@ -274,8 +309,87 @@ function viewAllFavourites() {
 // ============================================================
 
 function pickFromContacts() {
-  // TODO: use Contact Picker API or a modal
-  alert("Pick from contacts — coming next.");
+  renderContactsList();
+  document.getElementById("contactsModal").classList.remove("hidden");
+}
+
+function closeContactsModal() {
+  document.getElementById("contactsModal").classList.add("hidden");
+  hideAddContactForm();
+}
+
+function renderContactsList() {
+  const box = document.getElementById("contactsList");
+  const list = DB.getAllRecipients();
+
+  if (!list.length) {
+    box.innerHTML = `<div class="all-recipients-empty">No contacts saved yet.</div>`;
+    return;
+  }
+
+  box.innerHTML = list
+    .map((f) => {
+      const color = f.avatarColor || colorForId(f.id);
+      const avatarHtml = f.avatarUrl
+        ? `<div class="fav-avatar avatar-img"><img src="${escapeHtml(f.avatarUrl)}" alt="" /></div>`
+        : `<div class="fav-avatar ${color}">${getInitials(f.name)}</div>`;
+
+      return `
+        <button type="button" class="all-recipients-row" onclick="selectContact(${f.id})">
+          ${avatarHtml}
+          <div class="arr-text">
+            <span class="arr-name">${escapeHtml(f.name)}</span>
+            <span class="arr-phone">${escapeHtml(f.phone)}</span>
+          </div>
+        </button>
+      `;
+    })
+    .join("");
+}
+
+function selectContact(id) {
+  selectFavourite(id);
+  closeContactsModal();
+}
+
+function showAddContactForm() {
+  document.getElementById("addContactForm").classList.remove("hidden");
+  document.getElementById("newContactName").focus();
+}
+
+function hideAddContactForm() {
+  document.getElementById("addContactForm").classList.add("hidden");
+  document.getElementById("newContactName").value = "";
+  document.getElementById("newContactPhone").value = "";
+  document.getElementById("addContactError").classList.add("hidden");
+}
+
+function saveNewContact() {
+  const name = document.getElementById("newContactName").value.trim();
+  const phone = document.getElementById("newContactPhone").value.trim();
+  const errEl = document.getElementById("addContactError");
+
+  function showErr(msg) {
+    errEl.textContent = msg;
+    errEl.classList.remove("hidden");
+  }
+
+  if (!name) return showErr("Please enter a name.");
+  if (!isValidPhone(phone)) return showErr("Enter a valid phone number.");
+  if (DB.getRecipientByPhone(phone)) {
+    return showErr("This contact is already saved.");
+  }
+
+  DB.insertRecipient({
+    name,
+    phone,
+    isFavourite: true,
+    createdAt: Date.now(),
+  });
+
+  hideAddContactForm();
+  renderContactsList();
+  renderFavourites();
 }
 
 function scanQrCode() {
