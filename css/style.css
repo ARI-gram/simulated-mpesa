@@ -1,5 +1,41 @@
 /* =========================================
-   GLOBAL (shared by splash + admin pages)
+   DESIGN TOKENS
+========================================= */
+
+:root {
+  --bg-base: #000000;
+  --bg-app: #0d0d0d;
+  --bg-panel: #111111;
+  --bg-elevated: #161616;
+
+  --border-subtle: #1f2a22;
+  --border-default: #2a3a2e;
+  --border-strong: #3a4d3e;
+
+  --text-primary: #f5f7f6;
+  --text-secondary: #b0b8ae;
+  --text-muted: #6b7268;
+  --text-dim: #4d524e;
+
+  --accent-green: #22c55e;
+  --accent-green-bright: #34d970;
+  --accent-green-deep: #16a34a;
+  --accent-green-dark: #04210f;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 4px 20px rgba(34, 197, 94, 0.25);
+
+  --header-h: 60px;
+  --footer-h: 56px;
+}
+
+/* =========================================
+   GLOBAL
 ========================================= */
 
 * {
@@ -15,20 +51,480 @@ body {
 }
 
 body {
-  background: #000;
-  color: #fff;
+  background: var(--bg-base);
+  color: var(--text-primary);
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Generic screen wrapper — used by admin-dashboard.html */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================================
+   APP SHELL
+========================================= */
+
+.app-shell {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--bg-panel);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: var(--header-h);
+  padding-top: env(safe-area-inset-top);
+  background: rgba(13, 13, 13, 0.85);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.app-header__inner {
+  height: var(--header-h);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Brand */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  transition: opacity 0.2s ease;
+}
+
+.brand:hover {
+  opacity: 0.85;
+}
+
+.brand__mark {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.35));
+}
+
+.brand__wordmark {
+  font-size: 17px;
+}
+
+/* Status pill */
+.app-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--accent-green-bright);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.status-pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-green-bright);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* =========================================
+   MAIN
+========================================= */
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+/* Hero */
+.hero {
+  padding: 44px 4px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -40px -20px auto -20px;
+  height: 320px;
+  background: radial-gradient(
+    ellipse 380px 260px at 50% 40%,
+    rgba(34, 197, 94, 0.12),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hero__mark {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 16px rgba(34, 197, 94, 0.4));
+  margin-bottom: 4px;
+}
+
+.hero__mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--text-primary);
+  max-width: 320px;
+}
+
+.hero__subtitle {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 340px;
+}
+
+.hero__actions {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn {
+  width: 100%;
+  height: 54px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15.5px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    filter 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+/* Primary: solid green gradient */
+.btn--primary {
+  background: linear-gradient(
+    90deg,
+    var(--accent-green-deep),
+    var(--accent-green)
+  );
+  color: var(--accent-green-dark);
+}
+
+.btn--primary:hover {
+  filter: brightness(1.08);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Ghost: green-tinted border */
+.btn--ghost {
+  background: transparent;
+  border-color: rgba(34, 197, 94, 0.35);
+  color: var(--accent-green-bright);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent-green);
+  color: #eaf7ee;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 8px 0 40px;
+}
+
+.feature {
+  padding: 18px 18px 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition:
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    background 0.2s ease;
+}
+
+.feature:hover {
+  border-color: var(--border-strong);
+  background: #181f1a;
+  transform: translateY(-1px);
+}
+
+.feature__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-green);
+  margin-bottom: 6px;
+}
+
+.feature__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.feature__title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.feature__text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.app-footer {
+  padding: 18px 20px calc(18px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.app-footer__text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* Hidden admin hotspot — invisible by default */
+.admin-unlock {
+  background: none;
+  border: none;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.admin-unlock:hover {
+  color: var(--text-dim);
+}
+
+.admin-unlock:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+  color: var(--accent-green);
+}
+
+/* Revealed state */
+.admin-unlock.is-unlocked {
+  color: var(--accent-green-bright);
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.admin-unlock.is-unlocked:hover {
+  background: rgba(34, 197, 94, 0.18);
+  color: #eaf7ee;
+}
+
+/* =========================================
+   APP LAUNCH SPLASH
+========================================= */
+
+#app-splash {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#app-splash.fade-out {
+  opacity: 0;
+}
+
+#app-splash img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* =========================================
+   PWA INSTALL BUTTON
+========================================= */
+
+#installBtn {
+  display: none;
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  left: 50%;
+  padding: 12px 20px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-green-deep),
+    var(--accent-green)
+  );
+  color: var(--accent-green-dark);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    filter 0.15s ease;
+}
+
+#installBtn.visible {
+  display: block;
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+#installBtn:hover {
+  filter: brightness(1.08);
+}
+
+#installBtn:active {
+  transform: translate(-50%, 0) scale(0.97);
+}
+
+/* =========================================
+   LEGACY: shared screen wrapper
+   (kept for admin-dashboard.html etc.)
+========================================= */
+
 .screen {
   width: 100%;
   max-width: 430px;
   min-height: 100vh;
+  min-height: 100dvh;
   margin: 0 auto;
-  background: #111111;
+  background: var(--bg-panel);
   padding: 0 28px 30px;
   position: relative;
 }
@@ -50,318 +546,80 @@ body {
   display: block;
   margin-top: 30px;
   text-align: center;
-  color: #777;
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 14px;
+  transition: color 0.2s ease;
 }
 .back-link:hover {
-  color: #20c55a;
+  color: var(--accent-green);
 }
 
 /* =========================================
-   SPLASH / LANDING SCREEN
-========================================= */
-
-.splash-screen {
-  min-height: 100vh;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  padding: 80px 28px 35px;
-
-  text-align: center;
-}
-
-/* =========================================
-   SPLASH CONTENT
-========================================= */
-
-.splash-content {
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  flex: 1;
-}
-
-/* =========================================
-   M-PESA LOGO
-========================================= */
-
-.splash-logo {
-  width: 150px;
-
-  height: 150px;
-
-  border-radius: 50%;
-
-  background: #0b2a13;
-
-  border: 1px solid rgba(32, 197, 90, 0.25);
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  color: #20c55a;
-
-  font-size: 29px;
-
-  font-weight: 700;
-
-  letter-spacing: -1px;
-
-  box-shadow: 0 0 45px rgba(32, 197, 90, 0.08);
-}
-
-/* =========================================
-   SUBTITLE
-========================================= */
-
-.splash-subtitle {
-  margin-top: 28px;
-
-  color: #999999;
-
-  font-size: 16px;
-
-  font-weight: 400;
-
-  letter-spacing: 0.1px;
-}
-
-/* =========================================
-   ACTIONS
-========================================= */
-
-.splash-actions {
-  width: 100%;
-
-  max-width: 340px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 13px;
-}
-
-/* =========================================
-   PRIMARY BUTTON
-========================================= */
-
-.splash-button {
-  width: 100%;
-
-  height: 54px;
-
-  border-radius: 12px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-decoration: none;
-
-  font-size: 16px;
-
-  font-weight: 600;
-
-  font-family: inherit;
-
-  transition:
-    transform 0.1s ease,
-    opacity 0.2s ease;
-}
-
-.splash-button:active {
-  transform: scale(0.98);
-}
-
-/* =========================================
-   SECONDARY BUTTON
-========================================= */
-
-.btn-secondary {
-  width: 100%;
-
-  height: 54px;
-
-  border-radius: 12px;
-
-  border: 1px solid #333333;
-
-  background: #181818;
-
-  color: #dddddd;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-decoration: none;
-
-  font-size: 16px;
-
-  font-weight: 500;
-
-  font-family: inherit;
-
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.btn-secondary:hover {
-  border-color: #20c55a;
-
-  background: #151a16;
-}
-
-.btn-secondary:active {
-  transform: scale(0.98);
-}
-
-/* =========================================
-   FOOTER
-========================================= */
-
-.splash-footer {
-  margin-top: 28px;
-
-  color: #555555;
-
-  font-size: 12px;
-}
-
-/* =========================================
-   MOBILE
+   RESPONSIVE
 ========================================= */
 
 @media (max-width: 430px) {
-  .splash-screen {
-    padding: 55px 22px 30px;
+  .hero {
+    padding: 32px 0 28px;
   }
 
-  .splash-logo {
-    width: 125px;
-
-    height: 125px;
-
-    font-size: 25px;
+  .hero__title {
+    font-size: 24px;
   }
 
-  .splash-subtitle {
-    margin-top: 22px;
-
-    font-size: 15px;
+  .hero__subtitle {
+    font-size: 14.5px;
   }
 
-  .splash-button,
-  .btn-secondary {
+  .btn {
     height: 52px;
+  }
+
+  .app-header__inner {
+    padding: 0 16px;
+  }
+
+  .app-main {
+    padding: 0 16px;
+  }
+
+  .app-footer {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
-/* =========================================
-   SMALL HEIGHT PHONES
-========================================= */
-
 @media (max-height: 650px) {
-  .splash-screen {
-    padding-top: 30px;
-
-    padding-bottom: 25px;
+  .hero {
+    padding: 20px 0 20px;
+    gap: 12px;
   }
 
-  .splash-logo {
-    width: 105px;
+  .hero__mark {
+    width: 48px;
+    height: 48px;
+  }
 
-    height: 105px;
-
+  .hero__title {
     font-size: 22px;
   }
 
-  .splash-subtitle {
-    margin-top: 15px;
-  }
-
-  .splash-button,
-  .btn-secondary {
+  .btn {
     height: 48px;
   }
 }
 
 /* =========================================
-   PWA INSTALL BUTTON
-   Hidden by default — shown via .visible class
-   when the browser fires beforeinstallprompt.
+   REDUCED MOTION
 ========================================= */
-#installBtn {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 20px;
-  background: #22c55e;
-  color: #062b14;
-  border: none;
-  border-radius: 12px;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  z-index: 9999;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  transition:
-    transform 0.15s,
-    opacity 0.15s;
-}
 
-#installBtn.visible {
-  display: block;
-}
-
-#installBtn:active {
-  transform: translateX(-50%) scale(0.97);
-}
-
-/* ============================================================
-   APP LAUNCH SPLASH SCREEN
-   ============================================================ */
-
-#app-splash {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-}
-
-#app-splash img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

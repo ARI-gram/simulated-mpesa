@@ -8,6 +8,7 @@
     <!-- PWA -->
     <meta name="theme-color" content="#0d0d0d" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
@@ -21,32 +22,204 @@
   </head>
 
   <body>
-    <div id="app-splash">
-      <img src="icons/splash.png" alt="M-PESA" />
+    <!-- ============================================================
+         APP LAUNCH SPLASH (fades out on load)
+    ============================================================ -->
+    <div id="app-splash" aria-hidden="true">
+      <img src="icons/splash.png" alt="" />
     </div>
-    <div class="screen splash-screen">
-      <!-- Logo -->
-      <div class="splash-content">
-        <div class="splash-logo">M-PESA</div>
-        <p class="splash-subtitle">Simulated M-PESA App</p>
-      </div>
 
-      <!-- Actions -->
-      <div class="splash-actions">
-        <a href="login.html" class="btn-primary splash-button">
-          Continue as Customer
-        </a>
-        <a href="admin-dashboard.html" class="btn-secondary splash-button">
-          Admin Access
-        </a>
-      </div>
+    <!-- ============================================================
+         APP SHELL
+    ============================================================ -->
+    <div class="app-shell">
+      <!-- ============================================================
+           HEADER
+      ============================================================ -->
+      <header class="app-header" role="banner">
+        <div class="app-header__inner">
+          <!-- Brand -->
+          <a href="index.html" class="brand" aria-label="M-PESA home">
+            <svg
+              class="brand__mark"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M48 20a18 18 0 1 0 4 11"
+                stroke="url(#markGradient)"
+                stroke-width="4"
+                stroke-linecap="round"
+              />
+              <path d="M46 12l6 8-9 2z" fill="url(#markGradient)" />
+              <defs>
+                <linearGradient
+                  id="markGradient"
+                  x1="8"
+                  y1="8"
+                  x2="56"
+                  y2="56"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#06b6d4" />
+                  <stop offset="1" stop-color="#22c55e" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <span class="brand__wordmark">M-PESA</span>
+          </a>
 
-      <!-- Footer -->
-      <p class="splash-footer">Secure mobile money simulation</p>
+          <!-- Right side: status pill -->
+          <div class="app-header__meta">
+            <span class="status-pill" aria-label="Simulation mode">
+              <span class="status-pill__dot" aria-hidden="true"></span>
+              Simulation
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============================================================
+           MAIN CONTENT
+      ============================================================ -->
+      <main class="app-main" role="main">
+        <!-- Hero block -->
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero__mark" aria-hidden="true">
+            <svg
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M48 20a18 18 0 1 0 4 11"
+                stroke="url(#heroGradient)"
+                stroke-width="4"
+                stroke-linecap="round"
+              />
+              <path d="M46 12l6 8-9 2z" fill="url(#heroGradient)" />
+              <defs>
+                <linearGradient
+                  id="heroGradient"
+                  x1="8"
+                  y1="8"
+                  x2="56"
+                  y2="56"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#06b6d4" />
+                  <stop offset="1" stop-color="#22c55e" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <h1 id="hero-title" class="hero__title">
+            Practice mobile money safely
+          </h1>
+
+          <p class="hero__subtitle">
+            Real M-PESA flows — send, withdraw, pay bills — with zero real funds
+            at risk. Perfect for demos, training, and testing.
+          </p>
+
+          <div class="hero__actions">
+            <a href="login.html" class="btn btn--primary">
+              Continue as customer
+            </a>
+            <a href="#features" class="btn btn--ghost"> Learn more </a>
+          </div>
+        </section>
+
+        <!-- Feature strip -->
+        <section id="features" class="features" aria-label="Key features">
+          <article class="feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                />
+              </svg>
+            </div>
+            <h3 class="feature__title">Send & Receive</h3>
+            <p class="feature__text">
+              Simulate peer-to-peer transfers with realistic confirmations.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <path d="M2 10h20" />
+              </svg>
+            </div>
+            <h3 class="feature__title">Pay Bills</h3>
+            <p class="feature__text">
+              Walk through Paybill and Buy Goods flows step by step.
+            </p>
+          </article>
+
+          <article class="feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3 class="feature__title">Zero Risk</h3>
+            <p class="feature__text">
+              No real money. No real accounts. Just pure practice.
+            </p>
+          </article>
+        </section>
+      </main>
+
+      <!-- ============================================================
+           FOOTER
+      ============================================================ -->
+      <footer class="app-footer" role="contentinfo">
+        <p class="app-footer__text">
+          A simulation for learning — no real money moves.
+        </p>
+
+        <!-- Admin entry: hidden from public, opened via logo tap ×3
+             or by pressing Ctrl/Cmd + Shift + A -->
+        <button
+          type="button"
+          id="adminUnlock"
+          class="admin-unlock"
+          aria-label="Open admin access"
+        >
+          Admin
+        </button>
+      </footer>
     </div>
 
     <!-- Install button (hidden until browser fires beforeinstallprompt) -->
-    <button id="installBtn">Install M-PESA</button>
+    <button id="installBtn" aria-live="polite">Install M-PESA</button>
 
     <!-- Scripts -->
     <script src="js/db.js"></script>
@@ -99,16 +272,104 @@
         console.log("[PWA] Installed");
       });
     </script>
+
     <script>
+      // App launch splash: fade out, then remove
       window.addEventListener("load", () => {
         setTimeout(() => {
           const splash = document.getElementById("app-splash");
+          if (!splash) return;
 
-          if (splash) {
+          const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+
+          if (prefersReducedMotion) {
             splash.remove();
+            return;
           }
+
+          splash.classList.add("fade-out");
+          setTimeout(() => splash.remove(), 300);
         }, 1500);
       });
+    </script>
+
+    <script>
+      // ============================================================
+      // HIDDEN ADMIN ACCESS
+      // Admin link is invisible to the public. It is only revealed
+      // when the user explicitly unlocks it via:
+      //   1. Triple-tapping (or triple-clicking) the footer "Admin"
+      //      hotspot, OR
+      //   2. Pressing Ctrl/Cmd + Shift + A
+      // Once unlocked, the admin link is shown for the session.
+      // ============================================================
+      (function () {
+        const unlockBtn = document.getElementById("adminUnlock");
+        const ADMIN_URL = "admin-dashboard.html";
+        const STORAGE_KEY = "mpesa:adminUnlocked";
+
+        let tapCount = 0;
+        let tapTimer = null;
+
+        const isUnlocked = () => {
+          try {
+            return sessionStorage.getItem(STORAGE_KEY) === "1";
+          } catch {
+            return false;
+          }
+        };
+
+        const unlock = () => {
+          try {
+            sessionStorage.setItem(STORAGE_KEY, "1");
+          } catch {}
+          unlockBtn.classList.add("is-unlocked");
+          unlockBtn.textContent = "Admin access";
+        };
+
+        const goToAdmin = () => {
+          window.location.href = ADMIN_URL;
+        };
+
+        // If already unlocked this session, show it right away
+        if (isUnlocked()) {
+          unlock();
+        }
+
+        // Triple-tap / triple-click the invisible hotspot
+        unlockBtn.addEventListener("click", () => {
+          if (isUnlocked()) {
+            goToAdmin();
+            return;
+          }
+
+          tapCount += 1;
+          clearTimeout(tapTimer);
+          tapTimer = setTimeout(() => (tapCount = 0), 600);
+
+          if (tapCount >= 3) {
+            tapCount = 0;
+            unlock();
+          }
+        });
+
+        // Keyboard shortcut: Ctrl/Cmd + Shift + A
+        window.addEventListener("keydown", (e) => {
+          const isShortcut =
+            (e.ctrlKey || e.metaKey) &&
+            e.shiftKey &&
+            e.key.toLowerCase() === "a";
+          if (!isShortcut) return;
+          e.preventDefault();
+          if (isUnlocked()) {
+            goToAdmin();
+          } else {
+            unlock();
+          }
+        });
+      })();
     </script>
   </body>
 </html>
