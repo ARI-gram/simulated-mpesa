@@ -39,14 +39,9 @@ function showMpesaNotification(transaction, message) {
 
   const amount = formatCurrency(transaction.amount);
 
-  const title = "M-PESA";
+  const title = "MPESA";
 
-  let body = message?.body || "Transaction successful.";
-
-  // Keep the system notification short.
-  if (body.length > 120) {
-    body = body.substring(0, 117) + "...";
-  }
+  const body = message?.body || "Transaction successful.";
 
   const options = {
     body,

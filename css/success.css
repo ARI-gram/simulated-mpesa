@@ -30,6 +30,7 @@ body {
   width: 100%;
   max-width: 355px;
   min-height: 100vh;
+  min-height: 100dvh;
   margin: 0 auto;
 
   background: #101010;
@@ -475,7 +476,7 @@ body {
 .success-bottom {
   width: 100%;
 
-  padding: 26px 0 0;
+  padding: 20px 0 max(14px, env(safe-area-inset-bottom));
 
   flex-shrink: 0;
 }

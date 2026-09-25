@@ -21,10 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderThreadHeader();
   renderMessages();
   initMessageDelete();
+  initPinchZoom();
 });
 
 function renderThreadHeader() {
-  document.getElementById("threadName").textContent = THREAD_NAME;
+  document.getElementById("threadName").textContent = "MPESA";
 }
 
 // ============================================================
@@ -185,6 +186,61 @@ function initMessageDelete() {
     if (!row) return;
     e.preventDefault();
     askDelete(row);
+  });
+}
+
+// ============================================================
+// PINCH-TO-ZOOM (text size only)
+// ============================================================
+
+const ZOOM_KEY = "mpesa_msg_text_scale";
+const ZOOM_MIN = 0.8;
+const ZOOM_MAX = 1.8;
+
+function initPinchZoom() {
+  const list = document.getElementById("msgList");
+
+  // Restore the saved size
+  const saved = parseFloat(localStorage.getItem(ZOOM_KEY));
+  let scale = saved && saved >= ZOOM_MIN && saved <= ZOOM_MAX ? saved : 1;
+  list.style.setProperty("--msg-scale", scale);
+
+  let startDist = 0;
+  let startScale = scale;
+
+  function dist(touches) {
+    const [a, b] = touches;
+    return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+  }
+
+  list.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches.length === 2) {
+        startDist = dist(e.touches);
+        startScale = scale;
+      }
+    },
+    { passive: true },
+  );
+
+  list.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault(); // stop the page from scrolling while pinching
+        const ratio = dist(e.touches) / startDist;
+        scale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, startScale * ratio));
+        list.style.setProperty("--msg-scale", scale);
+      }
+    },
+    { passive: false },
+  );
+
+  list.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) {
+      localStorage.setItem(ZOOM_KEY, scale);
+    }
   });
 }
 

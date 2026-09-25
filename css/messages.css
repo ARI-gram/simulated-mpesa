@@ -26,12 +26,13 @@ body {
 .msg-page {
   width: 100%;
   max-width: 430px;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh; /* accounts for mobile browser bars */
   margin: 0 auto;
   background: #0d0d0d;
   display: flex;
   flex-direction: column;
-  padding-bottom: 8px;
+  overflow: hidden; /* keep header/footer fixed; only .msg-main scrolls */
 }
 
 /* =========================================
@@ -175,6 +176,8 @@ body {
   gap: 14px;
   scrollbar-width: thin;
   scrollbar-color: #2a2a2a transparent;
+  touch-action: pan-y; /* allow scrolling, but let JS handle pinch */
+  --msg-scale: 1;
 }
 .msg-main::-webkit-scrollbar {
   width: 4px;
@@ -238,7 +241,7 @@ body {
   border-radius: 14px;
   padding: 12px 14px;
   max-width: calc(100% - 60px);
-  font-size: 13.5px;
+  font-size: calc(13.5px * var(--msg-scale));
   line-height: 1.55;
   color: #e6e6e6;
   cursor: pointer;
