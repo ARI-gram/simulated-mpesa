@@ -237,12 +237,18 @@ body {
   color: #8a8a8a;
 }
 
+.msg-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
 .msg-bubble {
-  position: relative;
   background: #1e1e1e;
   border-radius: 14px;
-  padding: 12px 40px 12px 14px; /* room on the right for the forward icon */
-  max-width: 92%;
+  padding: 12px 14px;
+  max-width: calc(100% - 40px);
   font-size: calc(13.5px * var(--msg-scale));
   line-height: 1.55;
   color: #e6e6e6;
@@ -272,11 +278,15 @@ body {
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: #7f1d1d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   flex-shrink: 0;
+}
+
+.link-preview-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .link-preview-text {
@@ -297,23 +307,22 @@ body {
   color: #8a8a8a;
 }
 
-/* Forward icon, bottom-right corner of the bubble */
+/* Forward icon, floating beside the bubble */
 .msg-forward {
-  position: absolute;
-  right: 6px;
-  bottom: 6px;
+  flex-shrink: 0;
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: none;
-  background: #262626;
+  border: 1px solid #3a3a3a;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 .msg-forward:active {
-  background: #303030;
+  background: #1e1e1e;
+  border-color: #4a4a4a;
 }
 
 .msg-bubble:hover {

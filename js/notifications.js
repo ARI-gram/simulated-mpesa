@@ -44,10 +44,9 @@ function showMpesaNotification(transaction, message) {
 
   const options = {
     body,
-    icon: "icons/icon-192.png",
-    badge: "icons/icon-192.png",
     tag: `mpesa-${transaction.referenceId}`,
     renotify: true,
+    actions: [{ action: "open", title: "Open" }],
     data: {
       referenceId: transaction.referenceId,
       transactionId: transaction.id,

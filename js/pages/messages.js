@@ -85,9 +85,11 @@ function renderBubble(msg) {
     <div class="msg-row" data-id="${msg.id}">
       <div class="msg-meta">${timeLabel} · <span class="msg-carrier">1: Safaricom</span></div>
 
-      <div class="msg-bubble">
-        ${linkPreview}
-        <div class="msg-text">${safeBody}</div>
+      <div class="msg-line">
+        <div class="msg-bubble">
+          ${linkPreview}
+          <div class="msg-text">${safeBody}</div>
+        </div>
 
         <button
           type="button"
@@ -95,9 +97,9 @@ function renderBubble(msg) {
           onclick="forwardMessage(event, ${msg.id})"
           aria-label="Forward message"
         >
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#cfcfcf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 5l7 7-7 7" />
-            <path d="M4 12h17" />
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#cfcfcf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v6a4 4 0 0 0 4 4h9" />
+            <path d="M13 10l4-4-4-4" />
           </svg>
         </button>
       </div>
@@ -126,11 +128,7 @@ function buildLinkPreview(body) {
   return `
     <div class="link-preview">
       <div class="link-preview-icon">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5z" />
-          <path d="M2 17l10 5 10-5" />
-          <path d="M2 12l10 5 10-5" />
-        </svg>
+        <img src="icons/icon-192.png" alt="" />
       </div>
       <div class="link-preview-text">
         <span class="link-preview-title">Fintech App</span>

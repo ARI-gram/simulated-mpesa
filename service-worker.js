@@ -4,7 +4,7 @@
 // Bump CACHE_VERSION to force a cache refresh after edits.
 // ============================================================
 
-const CACHE_VERSION = "mpesa-v6";
+const CACHE_VERSION = "mpesa-v7";
 
 // Everything we want available offline
 const APP_SHELL = [
@@ -144,6 +144,9 @@ self.addEventListener("message", (event) => {
 // ---------- NOTIFICATION CLICK: open the related transaction ----------
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
+
+  // The explicit "Open" action button and tapping the body do the same thing
+  if (event.action && event.action !== "open") return;
 
   const referenceId = event.notification.data?.referenceId;
 
