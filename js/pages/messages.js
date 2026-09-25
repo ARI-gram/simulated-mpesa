@@ -119,17 +119,12 @@ function formatMsgTime(ts) {
 function buildLinkPreview(body) {
   const match = String(body).match(/https?:\/\/[^\s<]+/);
   if (!match) return "";
-
   let domain = match[0];
   try {
     domain = new URL(match[0]).hostname;
   } catch (_) {}
-
   return `
     <div class="link-preview">
-      <div class="link-preview-icon">
-        <img src="icons/icon-192.png" alt="" />
-      </div>
       <div class="link-preview-text">
         <span class="link-preview-title">Fintech App</span>
         <span class="link-preview-domain">${escapeHtml(domain)}</span>
