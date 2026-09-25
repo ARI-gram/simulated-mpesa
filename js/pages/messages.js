@@ -79,16 +79,12 @@ function renderMessages() {
 function renderBubble(msg) {
   const safeBody = linkify(escapeHtml(msg.body));
   const timeLabel = formatMsgTime(msg.createdAt);
-  const linkPreview = buildLinkPreview(msg.body);
 
   return `
     <div class="msg-row" data-id="${msg.id}">
-      <div class="msg-meta">${timeLabel} · <span class="msg-carrier">1: Safaricom</span></div>
-
       <div class="msg-line">
         <div class="msg-bubble">
           <div class="msg-text">${safeBody}</div>
-          ${linkPreview}
         </div>
 
         <button
@@ -103,6 +99,8 @@ function renderBubble(msg) {
           </svg>
         </button>
       </div>
+
+      <div class="msg-meta">${timeLabel} · <span class="msg-carrier">1: Safaricom</span></div>
     </div>
   `;
 }
@@ -113,24 +111,6 @@ function formatMsgTime(ts) {
   const hh = String(d.getHours()).padStart(2, "0");
   const mm = String(d.getMinutes()).padStart(2, "0");
   return `${hh}:${mm}`;
-}
-
-// Rich-link style preview card for the M-PESA balances URL
-function buildLinkPreview(body) {
-  const match = String(body).match(/https?:\/\/[^\s<]+/);
-  if (!match) return "";
-  let domain = match[0];
-  try {
-    domain = new URL(match[0]).hostname;
-  } catch (_) {}
-  return `
-    <div class="link-preview">
-      <div class="link-preview-text">
-        <span class="link-preview-title">Fintech App</span>
-        <span class="link-preview-domain">${escapeHtml(domain)}</span>
-      </div>
-    </div>
-  `;
 }
 
 // Stub — wire up the Web Share API or your own share sheet later
