@@ -1,0 +1,26 @@
+{
+  "name": "simulated-mpesa",
+  "version": "1.0.0",
+  "main": "service-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ARI-gram/simulated-mpesa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ARI-gram/simulated-mpesa/issues"
+  },
+  "homepage": "https://github.com/ARI-gram/simulated-mpesa#readme",
+  "description": "",
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/local-notifications": "^8.3.1"
+  }
+}
