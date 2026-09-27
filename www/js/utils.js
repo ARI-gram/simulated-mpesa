@@ -246,8 +246,8 @@ function processPayment(senderCustomerId, amount, buildFields) {
   const verb = isPochi ? "paid to" : "sent to";
 
   const recipientPart = isPochi
-    ? transaction.recipientName.toUpperCase()
-    : `${transaction.recipientName.toUpperCase()} ${transaction.recipientIdentifier}`;
+    ? transaction.recipientName
+    : `${transaction.recipientName} ${transaction.recipientIdentifier}`;
 
   const dailyTransactionLimitRemaining = 499890;
 
