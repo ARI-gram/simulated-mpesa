@@ -88,8 +88,8 @@ function renderSuccess() {
     `Ksh ${Number(tx.amount).toFixed(2)}`;
 
   // Transaction cost (you can compute this properly later)
-  document.getElementById("successCost").textContent =
-    "Transaction cost: Ksh 0.00";
+  document.getElementById("successCost").innerHTML =
+    "Transaction cost:<b>Ksh 0.00</b>";
 
   // Reference ID
   document.getElementById("successRef").textContent = tx.referenceId;
@@ -116,7 +116,7 @@ function renderSuccess() {
     },
     {
       className: "st-avatar",
-      fallbackClass: tx.type === "pochi" ? "blue" : "purple",
+      fallbackClass: "brown",
     },
   );
 
@@ -132,7 +132,20 @@ function renderSuccess() {
 function formatTxDate(ts) {
   const d = new Date(ts);
   const day = d.getDate();
-  const month = d.toLocaleString("en-GB", { month: "short" });
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ][d.getMonth()];
   const year = d.getFullYear();
   const time = d
     .toLocaleTimeString("en-US", {

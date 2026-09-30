@@ -213,11 +213,16 @@ body {
 .success-cost {
   text-align: center;
 
-  font-size: 9.5px;
+  font-size: 10.5px;
 
   color: #a4a4a4;
 
   margin-bottom: 12px;
+}
+
+.success-cost b {
+  color: #fff;
+  font-weight: 700;
 }
 
 /* =========================================================
@@ -232,9 +237,9 @@ body {
 
   gap: 4px;
 
-  font-size: 11px;
+  font-size: 12.5px;
 
-  font-weight: 500;
+  font-weight: 700;
 
   color: #22c55e;
 
@@ -251,8 +256,8 @@ body {
 
   font-family: inherit;
 
-  font-size: 11px;
-
+  font-size: 12.5px;
+  font-weight: 400;
   display: inline-flex;
   align-items: center;
 
@@ -281,51 +286,58 @@ body {
   padding: 13px;
 }
 
-.send-to-box .lbl {
-  font-size: 9px;
-
-  color: #d0d0d0;
-
-  margin-bottom: 10px;
+.send-to-box {
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 16px 14px 18px;
 }
-
+.send-to-box .lbl {
+  font-size: 10.5px;
+  color: #fff;
+  margin-bottom: 14px;
+}
 .send-to-row {
   display: flex;
-
   align-items: center;
-
-  gap: 10px;
+  gap: 12px;
 }
-
-/* =========================================================
-   AVATAR
-========================================================= */
 
 .st-avatar {
   width: 34px;
   height: 34px;
-
   border-radius: 50%;
-
-  background: #6d1b5c;
-
+  background: #4a1d10; /* dark brown */
+  color: #f0752f; /* orange initials */
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 11px;
-
+  font-size: 15px;
   font-weight: 700;
-
-  color: #fff;
-
   flex-shrink: 0;
-
-  letter-spacing: 0.3px;
+}
+.st-avatar.brown {
+  background: #4a1d10;
+  color: #f0752f;
 }
 
-.st-avatar.purple {
-  background: #6d1b5c;
+.st-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.st-name {
+  font-size: 12.5px;
+  font-weight: 400; /* was 700 */
+  letter-spacing: 0; /* was 0.3px */
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.st-phone {
+  font-size: 12.5px;
+  color: #e6e6e6;
 }
 
 .st-avatar.blue {
@@ -427,7 +439,7 @@ body {
 
   align-items: center;
 
-  gap: 5px;
+  gap: 9px;
 
   cursor: pointer;
 
@@ -460,7 +472,7 @@ body {
 }
 
 .tile-label {
-  font-size: 9px;
+  font-size: 10px;
 
   color: #c0c0c0;
 
@@ -477,7 +489,7 @@ body {
   width: 100%;
 
   padding: 20px 0 max(14px, env(safe-area-inset-bottom));
-
+  padding-top: 28px;
   flex-shrink: 0;
 }
 
@@ -494,13 +506,13 @@ body {
 
   border: none;
 
-  border-radius: 9px;
+  border-radius: 6px;
 
   font-family: inherit;
 
-  font-size: 13px;
+  font-size: 14px;
 
-  font-weight: 500;
+  font-weight: 400;
 
   cursor: pointer;
 
@@ -574,6 +586,26 @@ body {
   }
 
   .success-bottom {
-    padding-top: 18px;
+    padding-top: 22px;
   }
+}
+
+.share-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px 0 12px;
+  border: none;
+  border-radius: 8px;
+  background: #252525;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.share-pill:active {
+  background: #303030;
+  transform: scale(0.96);
 }
