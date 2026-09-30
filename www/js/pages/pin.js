@@ -95,9 +95,7 @@ function populateRecipient() {
     'id="recipientAvatar" class="recipient-avatar',
   );
 
-  nameEl.textContent = (
-    pending.recipientName || "Unknown Recipient"
-  ).toUpperCase();
+  nameEl.textContent = pending.recipientName || "Unknown Recipient";
 
   const amount = Number(pending.amount || 0).toFixed(2);
   subEl.innerHTML = `Ksh. ${amount} &nbsp; Fee: Ksh. 0.00`;

@@ -99,7 +99,7 @@ function renderSuccess() {
   const phone = tx.recipientIdentifier || "";
   const isPochi = tx.type === "pochi";
 
-  document.getElementById("stName").textContent = name.toUpperCase();
+  document.getElementById("stName").textContent = name;
   document.getElementById("stPhone").textContent = phone
     ? `Phone number:${phone}`
     : "";
