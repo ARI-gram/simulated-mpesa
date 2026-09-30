@@ -50,7 +50,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0 16px; /* was 8px 0 49px */
+  padding: 8px 0 10px;
   flex-shrink: 0;
 }
 
@@ -123,16 +123,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 34px; /* slightly bigger emoji */
+  font-size: 34px;
   line-height: 1;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.55);
 }
 
 .success-icon img {
-  width: 50px;
-  height: 70px;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
   display: block;
-  mix-blend-mode: lighten;
 }
 
 /* =========================================================
@@ -143,7 +143,7 @@ body {
   width: 100%;
   background: #202020;
   border-radius: 12px;
-  padding: 48px 13px 13px;
+  padding: 40px 13px 13px;
   position: relative;
   border: none;
 }
@@ -243,7 +243,7 @@ body {
 
   color: #22c55e;
 
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 
   flex-wrap: wrap;
 }
@@ -280,22 +280,16 @@ body {
 
 .send-to-box {
   background: #2a2a2a;
-
-  border-radius: 8px;
-
-  padding: 13px;
-}
-
-.send-to-box {
-  background: #2a2a2a;
   border-radius: 8px;
   padding: 16px 14px 18px;
 }
+
 .send-to-box .lbl {
   font-size: 10.5px;
   color: #fff;
   margin-bottom: 14px;
 }
+
 .send-to-row {
   display: flex;
   align-items: center;
@@ -315,29 +309,37 @@ body {
   font-weight: 700;
   flex-shrink: 0;
 }
+
 .st-avatar.brown {
   background: #4a1d10;
   color: #f0752f;
 }
 
+/* =========================================================
+   RECIPIENT DETAILS
+========================================================= */
+
 .st-details {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   min-width: 0;
 }
+
 .st-name {
-  font-size: 12.5px;
-  font-weight: 400; /* was 700 */
-  letter-spacing: 0; /* was 0.3px */
+  font-size: 12px;
+  font-weight: 700;
   color: #fff;
+  letter-spacing: 0.2px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .st-phone {
-  font-size: 12.5px;
-  color: #e6e6e6;
+  font-size: 11px;
+  color: #fff;
+  font-weight: 500;
 }
 
 .st-avatar.blue {
@@ -370,42 +372,6 @@ body {
 }
 
 /* =========================================================
-   RECIPIENT DETAILS
-========================================================= */
-
-.st-details {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 4px;
-
-  min-width: 0;
-}
-
-.st-name {
-  font-size: 11px;
-
-  font-weight: 700;
-
-  color: #fff;
-
-  letter-spacing: 0.3px;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-}
-
-.st-phone {
-  font-size: 9.5px;
-
-  color: #bcbcbc;
-}
-
-/* =========================================================
    ACTION BUTTONS
    ONLY 2 — MATCH REFERENCE SCREEN
 ========================================================= */
@@ -421,7 +387,7 @@ body {
 
   margin-top: 18px;
 
-  padding: 0 43px;
+  padding: 0 36px;
 }
 
 .action-tile {
@@ -548,7 +514,7 @@ body {
   }
 
   .success-actions {
-    padding: 0 38px;
+    padding: 0 32px;
   }
 }
 
@@ -562,7 +528,7 @@ body {
   }
 
   .success-card {
-    padding-top: 44px;
+    padding-top: 40px;
   }
 
   .success-title {
@@ -578,7 +544,7 @@ body {
   }
 
   .success-id {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .success-actions {
@@ -589,6 +555,10 @@ body {
     padding-top: 22px;
   }
 }
+
+/* =========================================================
+   SHARE PILL
+========================================================= */
 
 .share-pill {
   display: flex;
@@ -605,6 +575,7 @@ body {
   font-weight: 600;
   cursor: pointer;
 }
+
 .share-pill:active {
   background: #303030;
   transform: scale(0.96);

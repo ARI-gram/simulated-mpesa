@@ -101,7 +101,7 @@ function renderSuccess() {
 
   document.getElementById("stName").textContent = name;
   document.getElementById("stPhone").textContent = phone
-    ? `Phone number:${phone}`
+    ? `Phone number: ${phone}`
     : "";
 
   // Look up the original recipient to inherit their avatar
