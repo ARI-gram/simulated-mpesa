@@ -580,3 +580,48 @@ body {
   background: #303030;
   transform: scale(0.96);
 }
+
+/* =========================================================
+   LARGE SCREENS — simulate a phone frame
+========================================================= */
+
+@media (min-width: 500px) {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .success-page {
+    max-width: 390px;
+    width: 390px;
+    height: 844px; /* iPhone-ish canvas */
+    min-height: 0;
+    max-height: calc(100vh - 48px);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 8px #1a1a1a,
+      0 0 0 10px #2a2a2a,
+      0 30px 60px rgba(0, 0, 0, 0.7);
+    padding: 0 10px 10px;
+  }
+
+  /* Prevent the card from stretching oddly inside the frame */
+  .success-main {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+
+  /* Hide the real phone's status bar quirks */
+  .success-bottom {
+    padding-bottom: 14px;
+  }
+}
