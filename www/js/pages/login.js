@@ -1,3 +1,15 @@
+// Seed demo data on first launch (this used to happen on index.html)
+if (typeof seedIfEmpty === "function") seedIfEmpty();
+
+// Register the service worker (this used to happen on index.html)
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("service-worker.js")
+      .catch((err) => console.warn("[PWA] SW registration failed:", err));
+  });
+}
+
 let pin = "";
 
 const pinBoxes = [
@@ -16,6 +28,70 @@ const displayPhone = document.getElementById("displayPhone");
 const customerName = document.getElementById("customerName");
 
 const customerInitials = document.getElementById("customerInitials");
+
+// ============================================================
+// REMEMBERED PHONE
+// ============================================================
+
+const REMEMBER_KEY = "mpesa:lastPhone";
+let rememberedMode = false;
+
+function maskPhone(p) {
+  return p.length >= 10 ? p.slice(0, 4) + "****" + p.slice(-2) : p;
+}
+
+function getRememberedPhone() {
+  try {
+    return localStorage.getItem(REMEMBER_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+function rememberPhone(p) {
+  try {
+    localStorage.setItem(REMEMBER_KEY, p);
+  } catch {}
+}
+
+function forgetPhone() {
+  try {
+    localStorage.removeItem(REMEMBER_KEY);
+  } catch {}
+}
+
+function applyRememberedUser() {
+  const phone = getRememberedPhone();
+  if (!phone) return;
+
+  const customer = DB.getCustomerByPhone(phone);
+  if (!customer || customer.status === "INACTIVE") {
+    forgetPhone();
+    return;
+  }
+
+  rememberedMode = true;
+  phoneInput.value = phone; // stays in the hidden field for login
+  updateCustomerProfile();
+
+  document.querySelector(".phone-input-wrapper").style.display = "none";
+  document.getElementById("switchAccount").style.display = "block";
+}
+
+function switchAccount() {
+  forgetPhone();
+  rememberedMode = false;
+
+  phoneInput.value = "";
+  pin = "";
+  updatePinDisplay();
+  clearError();
+  updateCustomerProfile();
+
+  document.querySelector(".phone-input-wrapper").style.display = "";
+  document.getElementById("switchAccount").style.display = "none";
+  phoneInput.focus();
+}
 
 // ============================================================
 // ERROR
@@ -59,7 +135,11 @@ function getInitials(name) {
 function updateCustomerProfile() {
   const phone = phoneInput.value.trim();
 
-  displayPhone.textContent = phone || "----------";
+  displayPhone.textContent = phone
+    ? rememberedMode
+      ? maskPhone(phone)
+      : phone
+    : "----------";
 
   if (!phone) {
     customerInitials.textContent = "?";
@@ -187,6 +267,7 @@ async function biometricLogin() {
     // Success → log in
     Session.clearLoginLock();
     Session.setLoggedInCustomerId(customer.id);
+    rememberPhone(phone);
     window.location.href = "home.html";
   } catch (err) {
     if (WebAuthn.isUserCancelled(err)) {
@@ -302,10 +383,9 @@ document
     Session.clearLoginLock();
 
     Session.setLoggedInCustomerId(customer.id);
+    rememberPhone(phone); // save the number for next time
 
-    // 🔹 Try to enrol a biometric credential for this customer
-    // (only if supported, has a platform authenticator, and
-    //  they don't already have one registered).
+    // Try to enrol a biometric credential (only once, never blocks login)
     await maybeRegisterBiometric(customer);
 
     window.location.href = "home.html";
@@ -352,10 +432,46 @@ async function updateBiometricHint() {
   const hasSensor = await WebAuthn.hasPlatformAuthenticator();
   if (!hasSensor) return;
 
-  hint.textContent =
-    "Tap the fingerprint icon after entering your phone number.";
+  hint.textContent = getRememberedPhone()
+    ? "Tap the fingerprint icon to log in."
+    : "Tap the fingerprint icon after entering your phone number.";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  applyRememberedUser();
   updateBiometricHint();
 });
+
+// ============================================================
+// HIDDEN ADMIN ENTRY
+// Tap the title 5 times within ~3 seconds, or Ctrl/Cmd+Shift+A
+// ============================================================
+(function () {
+  const trigger = document.querySelector(".login-container h1");
+  const ADMIN_URL = "admin-dashboard.html";
+  let taps = 0;
+  let timer = null;
+
+  if (trigger) {
+    trigger.style.userSelect = "none";
+    trigger.style.webkitTapHighlightColor = "transparent";
+
+    trigger.addEventListener("click", () => {
+      taps += 1;
+      clearTimeout(timer);
+      timer = setTimeout(() => (taps = 0), 3000);
+
+      if (taps >= 5) {
+        taps = 0;
+        window.location.href = ADMIN_URL;
+      }
+    });
+  }
+
+  window.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "a") {
+      e.preventDefault();
+      window.location.href = ADMIN_URL;
+    }
+  });
+})();

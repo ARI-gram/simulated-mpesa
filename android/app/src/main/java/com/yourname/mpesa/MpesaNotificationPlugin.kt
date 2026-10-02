@@ -10,8 +10,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.Person
-import androidx.core.graphics.drawable.IconCompat
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -56,26 +54,8 @@ class MpesaNotificationPlugin : Plugin() {
             ?: (System.currentTimeMillis() % 1000000).toInt()
 
         try {
-            val icon = IconCompat.createWithResource(
-                context,
-                R.drawable.ic_profile_avatar
-            )
-
-            val sender = Person.Builder()
-                .setName(title)
-                .setIcon(icon)
-                .build()
-
-            val me = Person.Builder()
-                .setName("Me")
-                .build()
-
-            val style = NotificationCompat.MessagingStyle(me)
-                .addMessage(
-                    body,
-                    System.currentTimeMillis(),
-                    sender
-                )
+            val style = NotificationCompat.BigTextStyle()
+                .bigText(body)
 
             val openIntent = Intent(
                 context,

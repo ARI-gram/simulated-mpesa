@@ -4,7 +4,7 @@
 // Bump CACHE_VERSION to force a cache refresh after edits.
 // ============================================================
 
-const CACHE_VERSION = "mpesa-v14";
+const CACHE_VERSION = "mpesa-v17";
 
 // Everything we want available offline
 const APP_SHELL = [
@@ -103,34 +103,31 @@ self.addEventListener("activate", (event) => {
 // ---------- FETCH: cache-first, network fallback ----------
 self.addEventListener("fetch", (event) => {
   const req = event.request;
-
-  // Only handle same-origin GETs
   if (req.method !== "GET") return;
   if (!req.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
-
-      return fetch(req)
-        .then((res) => {
-          // Cache successful responses on the fly
-          if (res && res.status === 200 && res.type === "basic") {
-            const copy = res.clone();
-            caches.open(CACHE_VERSION).then((cache) => {
-              cache.put(req, copy).catch(() => {});
-            });
-          }
-          return res;
-        })
-        .catch(() => {
-          // Offline fallback for navigations
-          if (req.mode === "navigate") {
-            return caches.match("./index.html");
-          }
-          return new Response("Offline", { status: 503 });
-        });
-    }),
+    fetch(req)
+      .then((res) => {
+        if (res && res.status === 200 && res.type === "basic") {
+          const copy = res.clone();
+          caches
+            .open(CACHE_VERSION)
+            .then((c) => c.put(req, copy).catch(() => {}));
+        }
+        return res;
+      })
+      .catch(() =>
+        caches
+          .match(req)
+          .then(
+            (cached) =>
+              cached ||
+              (req.mode === "navigate"
+                ? caches.match("./index.html")
+                : new Response("Offline", { status: 503 })),
+          ),
+      ),
   );
 });
 
