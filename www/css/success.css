@@ -15,7 +15,7 @@ body {
 }
 
 body {
-  background: #000;
+  background: #101010;
   color: #eee;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
@@ -28,17 +28,17 @@ body {
 
 .success-page {
   width: 100%;
-  max-width: 355px;
+  max-width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
-  margin: 0 auto;
+  margin: 0;
 
   background: #101010;
 
   display: flex;
   flex-direction: column;
 
-  padding: 0 10px 10px;
+  padding: 0 14px 10px;
 }
 
 /* =========================================================
@@ -77,6 +77,31 @@ body {
 .circle-btn:active {
   transform: scale(0.92);
   background: #303030;
+}
+
+/* =========================================================
+   SHARE PILL
+========================================================= */
+
+.share-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px 0 12px;
+  border: none;
+  border-radius: 8px;
+  background: #252525;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.share-pill:active {
+  background: #303030;
+  transform: scale(0.96);
 }
 
 /* =========================================================
@@ -258,6 +283,7 @@ body {
 
   font-size: 12.5px;
   font-weight: 400;
+
   display: inline-flex;
   align-items: center;
 
@@ -296,6 +322,10 @@ body {
   gap: 12px;
 }
 
+/* =========================================================
+   AVATAR
+========================================================= */
+
 .st-avatar {
   width: 34px;
   height: 34px;
@@ -313,33 +343,6 @@ body {
 .st-avatar.brown {
   background: #4a1d10;
   color: #f0752f;
-}
-
-/* =========================================================
-   RECIPIENT DETAILS
-========================================================= */
-
-.st-details {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-}
-
-.st-name {
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0;
-  color: #fff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.st-phone {
-  font-size: 13px;
-  font-weight: 400;
-  color: #e6e6e6;
 }
 
 .st-avatar.blue {
@@ -372,8 +375,34 @@ body {
 }
 
 /* =========================================================
+   RECIPIENT DETAILS
+========================================================= */
+
+.st-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.st-name {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.st-phone {
+  font-size: 13px;
+  font-weight: 400;
+  color: #e6e6e6;
+}
+
+/* =========================================================
    ACTION BUTTONS
-   ONLY 2 — MATCH REFERENCE SCREEN
 ========================================================= */
 
 .success-actions {
@@ -454,8 +483,8 @@ body {
 .success-bottom {
   width: 100%;
 
-  padding: 20px 0 max(14px, env(safe-area-inset-bottom));
-  padding-top: 28px;
+  padding: 28px 0 max(14px, env(safe-area-inset-bottom));
+
   flex-shrink: 0;
 }
 
@@ -504,10 +533,6 @@ body {
 ========================================================= */
 
 @media (max-width: 380px) {
-  .success-page {
-    max-width: 355px;
-  }
-
   .success-card {
     padding-left: 12px;
     padding-right: 12px;
@@ -557,32 +582,7 @@ body {
 }
 
 /* =========================================================
-   SHARE PILL
-========================================================= */
-
-.share-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 34px;
-  padding: 0 14px 0 12px;
-  border: none;
-  border-radius: 8px;
-  background: #252525;
-  color: #fff;
-  font-family: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.share-pill:active {
-  background: #303030;
-  transform: scale(0.96);
-}
-
-/* =========================================================
-   LARGE SCREENS — simulate a phone frame
+   LARGE SCREENS — simulate a phone frame (laptop only)
 ========================================================= */
 
 @media (min-width: 500px) {
@@ -620,7 +620,6 @@ body {
     overflow-y: auto;
   }
 
-  /* Hide the real phone's status bar quirks */
   .success-bottom {
     padding-bottom: 14px;
   }
